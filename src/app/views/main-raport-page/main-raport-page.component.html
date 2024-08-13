@@ -1,0 +1,1533 @@
+<p>main-raport-page works!</p>
+<div class="wrapper">
+  <div class="content-wrapper">
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6 ">
+            <input class="info-input input-name" type="text" placeholder="ФИО клиента" [(ngModel)]="clientName">
+          </div>
+          <div class="col-sm-6 ">
+            <input class="info-input input-date" type="date" placeholder="Дата рождения" [(ngModel)] = "birthDate" >
+          </div>
+          <div class="col-sm-6 ">
+            <input class="info-input input-date" type="date" placeholder="Дата обследования" [(ngModel)] = "searchDate" >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="diagnostic">
+        <div>
+          <div>
+            <h4>Жалобы со слов мамы:</h4>
+          </div>
+          <textarea rows="10" cols="80" [(ngModel)]="complaints"></textarea>
+        </div>
+        <div>
+          <div>
+            <h4> Медицинский анамнез со слов мамы:</h4>
+          </div>
+          <textarea rows="10" cols="80" [(ngModel)]="medicalAnamnesis"></textarea>
+        </div>
+
+        <div>
+          <div>
+            <h4>Социальный анамнез:</h4>
+          </div>
+          <textarea rows="10" cols="80" [(ngModel)]="socialAnamnesis"></textarea>
+        </div>
+
+        <div class="symptom-category">
+          <h2 class="category-title">Общая характеристика</h2>
+            <div class="one-symptom d-flex align-items-center">
+              <div class="symptom-name">Установление контакта</div>
+              <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+              <button class=" btn-sm bg-success addButtons" id="00" (click)="savePoint(this.buttonsCollection[0])"> OK </button>
+            </div>
+
+            <div class="one-symptom d-flex align-items-center">
+              <div class="symptom-name">Вступление в беседу с обследующим</div>
+              <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+              <button class=" btn-sm bg-success addButtons" id="01" (click)="savePoint(this.buttonsCollection[1])"> OK </button>
+            </div>
+
+          <div class="raport-block d-flex align-items-center"> <!-- добавить стрелочку-->
+            <div class="block-title bg-light" data-toggle="collapse" data-target="#collapseExample"
+                 aria-expanded="false" aria-controls="collapseExample">
+              Ориентировка в месте, времени, личности
+            </div>
+            <div>
+              <app-point-counter   (onCountChange)="addPoint($event)" ></app-point-counter>
+            </div>
+            <button class="btn-sm bg-success addButtons" id="02" (click)="savePoint(this.buttonsCollection[2])"> OK </button>
+          </div>
+          <div class="collapse mb-4" id="collapseExample">
+            <div class="one-symptom d-flex align-items-center">
+              <input type="checkbox" id="orientation" class="inputs orientatiuon" value="Не может назвать актуальную дату" (change)="inputChange('orientation')" >
+              <label for="orientation"> Не может назвать актуальную дату</label>
+            </div>
+            <div class="one-symptom d-flex align-items-center">
+              <input type="checkbox" id="orientation1" class="inputs orientatiuon" value="Не может назвать свои имя и фамилию" (change)="inputChange('orientation1')" >
+              <label for="orientation1"> Не может назвать свои имя и фамилию</label>
+            </div>
+            <div class="one-symptom d-flex align-items-center">
+              <input type="checkbox" id="orientation2" class="inputs orientatiuon" value="Не может назвать свою дату рождения" (change)="inputChange('orientation2')" >
+              <label for="orientation2"> Не может назвать свою дату рождения </label>
+            </div>
+            <div class="one-symptom d-flex align-items-center">
+              <input type="checkbox" id="orientation3" class="inputs orientatiuon" value="Не может сказать где находится" (change)="inputChange('orientation3')">
+              <label for="orientation3">Не может сказать где находится</label>
+            </div>
+            <div class="one-symptom d-flex align-items-center">
+              <input type="checkbox" id="orientation4" class="inputs orientatiuon" value="Не может сказать с кем пришел" (change)="inputChange('orientation4')" >
+              <label for="orientation4">Не может сказать с кем пришел</label>
+            </div>
+            <div class="one-symptom d-flex align-items-center">
+              <input type="checkbox" id="orientation5" class="inputs orientatiuon" value="Не может дать фактологическую информацию о себе ( в каком классе учится)" (change)="inputChange('orientation5')" >
+              <label for="orientation5">Не может дать фактологическую информацию о себе ( в каком классе учится)</label>
+            </div>
+
+          </div>
+          <div class="raport-block d-flex align-items-center"> <!-- добавить стрелочку-->
+            <div class="block-title bg-light" data-toggle="collapse" data-target="#collapseExample1"
+                 aria-expanded="false" aria-controls="collapseExample">
+              Адекватность
+            </div>
+            <div>
+              <app-point-counter   (onCountChange)="addPoint($event)"></app-point-counter>
+            </div>
+            <button class=" btn-sm bg-success addButtons" id="03" (click)="savePoint(this.buttonsCollection[3])"> Ok </button>
+          </div>
+          <div class="collapse mb-4" id="collapseExample1">
+            <div class="one-symptom d-flex align-items-center">
+              <input type="checkbox" id="adequacy" class="inputs adequancy" value="Полевое поведение"  (change)="inputChange('adequacy')">
+              <label for="adequacy">Полевое поведение</label>
+            </div>
+            <div class="one-symptom d-flex align-items-center">
+              <input type="checkbox" id="adequacy1" class="inputs adequancy" value="Негативизм (отказ от заданий)"   (change)="inputChange('adequacy1')" >
+              <label for="adequacy1">Негативизм (отказ от заданий)</label>
+            </div>
+            <div class="one-symptom d-flex align-items-center">
+              <input type="checkbox" id="adequacy2" class="inputs adequancy" value="Манерность, демонстративность поведения" (change)="inputChange('adequacy2')">
+              <label for="adequacy2">Манерность, демонстративность поведения</label>
+            </div>
+            <div class="one-symptom d-flex align-items-center">
+              <input type="checkbox" id="adequacy3" class="inputs adequancy" value="Не соблюдает дистанцию в общении с психологом" (change)="inputChange('adequacy3')">
+              <label for="adequacy3">Не соблюдает дистанцию в общении с психологом</label>
+            </div>
+          </div>
+
+          <div class="one-symptom d-flex align-items-center">
+            <div class="symptom-name">Критичность</div>
+            <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+            <button class=" btn-sm bg-success addButtons" id="04" (click)="savePoint(this.buttonsCollection[4])"> OK </button>
+          </div>
+
+            <div class="one-symptom d-flex align-items-center">
+              <div class="symptom-name">Чувствительность к оценкам взрослого</div>
+              <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+              <button class=" btn-sm bg-success addButtons" id="05" (click)="savePoint(this.buttonsCollection[5])"> OK </button>
+            </div>
+
+            <div class="one-symptom d-flex align-items-center">
+              <div class="symptom-name">Заинтересованность в результатах обследования.</div>
+              <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+              <button class=" btn-sm bg-success addButtons" id="06" (click)="savePoint(this.buttonsCollection[6])"> OK </button>
+            </div>
+
+            <div class="one-symptom d-flex align-items-center">
+              <div class="symptom-name">Отсутствие/наличие активных жалоб у ребенка с трудностями обучения</div>
+              <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+              <button class=" btn-sm bg-success addButtons" id="07" (click)="savePoint(this.buttonsCollection[7])"> OK </button>
+            </div>
+
+          <div class="one-symptom d-flex align-items-center"> <!-- добавить стрелочку-->
+            <div class="symptom-name">Формирование экспертной мотивации</div>
+            <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+            <button class=" btn-sm bg-success addButtons" id="08" (click)="savePoint(this.buttonsCollection[8])"> OK </button>
+          </div>
+
+          <div class="raport-block d-flex align-items-center"> <!-- добавить стрелочку-->
+            <div class="block-title bg-light" data-toggle="collapse" data-target="#collapseExample3"
+                 aria-expanded="false" aria-controls="collapseExample">
+              Эмоциональный фон <!-- delete-->
+            </div>
+            <div>
+              <app-point-counter   (onCountChange)="addPoint($event)"></app-point-counter>
+            </div>
+            <button class="btn-sm bg-success addButtons" id="09" (click)="savePoint(this.buttonsCollection[9])"> OK </button>
+          </div>
+          <div class="collapse mb-4" id="collapseExample3">
+            <div class="one-symptom d-flex align-items-center">
+              <input type="checkbox" id="emotions0" class="inputs emotions" value="Расторможенность, общее возбуждение, неусидчивость" (change)="inputChange('emotions0')">
+              <label for="emotions0">Расторможенность, общее возбуждение, неусидчивость</label>
+            </div>
+            <div class="one-symptom d-flex align-items-center">
+              <input type="checkbox" id="emotions" class="inputs emotions" value="Неадекватные эмоциональные реакции: истеричность, плач, смех без видимых" (change)="inputChange('emotions')">
+              <label for="emotions">Неадекватные эмоциональные реакции: истеричность, плач, смех без видимых
+                поводов</label>
+            </div>
+            <div class="one-symptom d-flex align-items-center">
+              <input type="checkbox" id="emotions1" class="inputs emotions" value="Эмоциональая лабильность" (change)="inputChange('emotions1')">
+              <label for="emotions1">Эмоциональая лабильность</label>
+            </div>
+            <div class="one-symptom d-flex align-items-center">
+              <input type="checkbox" id="emotions2" class="inputs emotions"  value="Напряженность, тревожность"  (change)="inputChange('emotions2')">
+              <label for="emotions2">Напряженность, тревожность</label>
+            </div>
+            <div class="one-symptom d-flex align-items-center">
+              <input type="checkbox" id="emotions3" class="inputs emotions" value="Инфантилизм, повышенная зависимость от родителей, постоянное обращение за помощью
+                (поддержкой) к ним" (change)="inputChange('emotions3')">
+              <label for="emotions3">Инфантилизм, повышенная зависимость от родителей, постоянное обращение за помощью
+                (поддержкой) к ним</label>
+            </div>
+            <div class="one-symptom d-flex align-items-center ">
+              <input type="checkbox" id="emotions4" class="inputs emotions" value="Эмоциональная притупленность" (change)="inputChange('emotions4')">
+              <label for="emotions4">Эмоциональная притупленность </label>
+            </div>
+            <div class="one-symptom d-flex align-items-center">
+              <input type="checkbox" id="emotions5" class="inputs emotions" value="Проявления агрессии" (change)="inputChange('emotions5')">
+              <label for="emotions5">Проявления агрессии </label>
+            </div>
+            <div class="one-symptom d-flex align-items-center">
+              <input type="checkbox" id="emotions6" class="inputs emotions" value="Проявления самоагрессии" (change)="inputChange('emotions6')">
+              <label for="emotions6"> Проявления самоагрессии</label>
+            </div>
+            <div class="one-symptom d-flex align-items-center">
+              <input type="checkbox" id="emotions7" class="inputs emotions" value="Реакции на успех/неуспех живые, адекватнвые" (change)="inputChange('emotions7')">
+              <label for="emotions7"> Реакции на успех/неуспех живые, адекватнвые</label>
+            </div>
+            <div class="one-symptom d-flex align-items-center">
+              <input type="checkbox" id="emotions8" class="inputs emotions" value="Реакции на успех/неуспех чрезмерные" (change)="inputChange('emotions8')">
+              <label for="emotions8"> Реакции на успех/неуспех чрезмерные</label>
+            </div>
+            <div class="one-symptom d-flex align-items-center">
+              <input type="checkbox" id="emotions9" class="inputs emotions" value="Реакции на успех/неуспех уплощенные" (change)="inputChange('emotions9')">
+              <label for="emotions9">Реакции на успех/неуспех уплощенные</label>
+            </div>
+            <div class="one-symptom d-flex align-items-center">
+              <input type="checkbox" id="emotions10" class="inputs emotions" value="Реакции на успех/неуспех индифферентные" (change)="inputChange('emotions10')">
+              <label for="emotions10">Реакции на успех/неуспех индифферентные</label>
+            </div>
+          </div>
+
+          <div class="raport-block d-flex align-items-center"> <!-- добавить стрелочку-->
+            <div class="block-title bg-light" data-toggle="collapse" data-target="#collapseExample4"
+                 aria-expanded="false" aria-controls="collapseExample">
+              Характеристика работоспособности
+            </div>
+            <div>
+              <app-point-counter   (onCountChange)="addPoint($event)"></app-point-counter>
+            </div>
+            <button class="btn-sm bg-success addButtons" id="010" (click)="savePoint(this.buttonsCollection[10])"> OK </button>
+          </div>
+          <div class="collapse mb-4" id="collapseExample4">
+            <div class="one-symptom d-flex align-items-center">
+              <div class="symptom-name">Повышенная отвлекаемость от заданий</div>
+              <app-point-counter   (onCountChange)="addPoint($event)"></app-point-counter>
+            </div>
+            <div class="symptom-name">Темп деятельности</div>
+            <div class="one-symptom d-flex align-items-center">
+              <input type="checkbox" id="tempo_1" class="inputs perfomanceTempo" value="замедленный" (change)="inputChange('tempo_1')">
+              <label for="tempo_1"> замедленный</label>
+            </div>
+            <div class="one-symptom d-flex align-items-center">
+              <input type="checkbox" id="tempo_2" class="inputs perfomanceTempo" value="ускоренный" (change)="inputChange('tempo_2')">
+              <label for="tempo_2">ускоренный </label>
+            </div>
+            <div class="one-symptom d-flex align-items-center">
+              <input type="checkbox" id="tempo_3" class="inputs perfomanceTempo" value="умеренный" (change)="inputChange('tempo_3')">
+              <label for="tempo_3">умеренный </label>
+            </div>
+            <div class="symptom-name">Динамика работоспособности</div>
+            <div class="one-symptom d-flex align-items-center">
+              <input type="checkbox" id="dinamic" class="inputs perfomanceDinamic" value="равномерная" (change)="inputChange('dinamic')">
+              <label for="dinamic">равномерная </label>
+            </div>
+            <div class="one-symptom d-flex align-items-center">
+              <input type="checkbox" id="dinamic_1" class="inputs perfomanceDinamic" value="неравномерная" (change)="inputChange('dinamic_1')">
+              <label for="dinamic_1">неравномерная </label>
+            </div>
+            <div class="one-symptom d-flex align-items-center">
+              <input type="checkbox" id="dinamic_2" class="inputs perfomanceDinamic" value="с тенденцией к истощению" (change)="inputChange('dinamic_2')">
+              <label for="dinamic_2"> с тенденцией к истощению</label>
+            </div>
+            <div class="one-symptom d-flex align-items-center">
+              <input type="checkbox" id="dinamic_3" class="inputs perfomanceDinamic" value="с тенденцией к врабатываемости" (change)="inputChange('dinamic_3')">
+              <label for="dinamic_3"> с тенденцией к врабатываемости</label>
+            </div>
+          </div>
+
+          <div class="one-symptom d-flex align-items-center"> <!-- добавить стрелочку-->
+            <div class="symptom-name"> Понимание инструкций</div>
+            <app-point-counter   (onCountChange)="addPoint($event)"> </app-point-counter>
+            <button class="btn-sm bg-success addButtons" id="011" (click)="savePoint(this.buttonsCollection[11])"> OK </button>
+          </div>
+
+          <div class="one-symptom d-flex align-items-center"> <!-- добавить стрелочку-->
+            <div class="symptom-name">  Выполнение заданий</div>
+            <app-point-counter   (onCountChange)="addPoint($event)"></app-point-counter>
+            <button class="btn-sm bg-success addButtons" id="012" (click)="savePoint(this.buttonsCollection[12])"> OK </button>
+          </div>
+
+          <div class="raport-block d-flex align-items-center"> <!-- добавить стрелочку-->
+            <div class="block-title bg-light" data-toggle="collapse" data-target="#collapseExample7"
+                 aria-expanded="false" aria-controls="collapseExample">
+              Помощь, оказываемая в процессе обследования
+            </div>
+            <div>
+              <app-point-counter   (onCountChange)="addPoint($event)"></app-point-counter>
+            </div>
+            <button class="btn-sm bg-success addButtons" id="013" (click)="savePoint(this.buttonsCollection[13])"> OK </button>
+          </div>
+          <div class="one-symptom d-flex align-items-center">
+            <div class="collapse mb-4" id="collapseExample7">
+              <div>
+                <input type="checkbox" id="help" class="inputs help"  value="организующая"  (change)="inputChange('help')">
+                <label for="dinamic"> организующая</label>
+              </div>
+              <div>
+                <input type="checkbox" id="help_2" class="inputs help" value="стимулирующая" (change)="inputChange('help_2')">
+                <label for="dinamic_2"> стимулирующая</label>
+              </div>
+              <div>
+                <input type="checkbox" id="help_3" class="inputs help" value="регулирующая" (change)="inputChange('help_3')">
+                <label for="dinamic_3"> регулирующая</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="symptom-category">
+          <h2 class="category-title">По объективным данным</h2>
+
+          <div>
+            <h3>Праксис</h3>
+            <div class="raport-block d-flex align-items-center"> <!-- добавить стрелочку-->
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapse" aria-expanded="false"
+                   aria-controls="collapseExample">
+                Проба на динамический праксис
+              </div>
+              <div>
+                <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+              </div>
+              <button class="btn-sm bg-success pracsisButtons" id="pracsis_0" (click)="saveObjectivePoint($event.target)"> OK </button>
+            </div>
+            <div class="collapse mb-4" id="collapse">
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dPracsis" class="inputs_pracsis dinamic" value="трудности переключения с одного движения на другое"  (change)="inputChange('dPracsis')">
+                <label for="dPracsis"> трудности переключения с одного движения на другое</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dPracsis-1"  class="inputs_pracsis dinamic" value="скандированность" (change)="inputChange('dPracsis-1')">
+                <label for="dPracsis-1"> скандированность</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dPracsis-12"  class="inputs_pracsis dinamic" value="неполное сжатие" (change)="inputChange('dPracsis-12')">
+                <label for="dPracsis-12"> неполное сжатие </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dPracsis-2"  class="inputs_pracsis dinamic" value="расширение программы" (change)="inputChange('dPracsis-2')">
+                <label for="dPracsis-2"> расширение программы</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dPracsis-3"  class="inputs_pracsis dinamic" value="упрощение программы" (change)="inputChange('dPracsis-3')">
+                <label for="dPracsis-3"> упрощение программы</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dPracsis-11"  class="inputs_pracsis dinamic" value="зеркальное позиционирование ладони (пространственная ошибка)" (change)="inputChange('dPracsis-11')">
+                <label for="dPracsis-11"> зеркальное позиционирование ладони (пространственная ошибка) </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dPracsis-13"  class="inputs_pracsis dinamic" value="персеверации" (change)="inputChange('dPracsis-13')">
+                <label for="dPracsis-13"> персеверации</label>
+              </div>
+
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapse" aria-expanded="false"
+                   aria-controls="collapseExample">
+                Скорость усвоения программы
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dPracsis-6"  class="inputs_pracsis dinamic" value="с первого раза после показа" (change)="inputChange('dPracsis-6')">
+                <label for="dPracsis-6"> с первого раза после показа </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dPracsis-7"  class="inputs_pracsis dinamic" value="со 2 раза после показа" (change)="inputChange('dPracsis-7')">
+                <label for="dPracsis-7"> со 2 раза после показа </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dPracsis-8"  class="inputs_pracsis dinamic" value="после показа и сопряженного выполнения" (change)="inputChange('dPracsis-8')">
+                <label for="dPracsis-8"> после показа и сопряженного выполнения </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dPracsis-9"  class="inputs_pracsis dinamic" value="после показа, сопряженного выполнения с успешным оречевлением" (change)="inputChange('dPracsis-9')">
+                <label for="dPracsis-9"> после показа, сопряженного выполнения с успешным оречевлением </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dPracsis-10"  class="inputs_pracsis dinamic" value="после показа, сопряженного выполнения с безуспешным оречевлением" (change)="inputChange('dPracsis-10')">
+                <label for="dPracsis-10"> после показа, сопряженного выполнения с безуспешным оречевлением </label>
+              </div>
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapse" aria-expanded="false"
+                   aria-controls="collapseExample">
+                Выполнение пробы в условиях сенсибиизации
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dPracsisSens" class="inputs_pracsis dinamic" value="доступно" (change)="inputChange('dPracsisSens')">
+                <label for="dPracsisSens"> доступно </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dPracsisSens1"  class="inputs_pracsis dinamic" value="недоступно" (change)="inputChange('dPracsisSens1')">
+                <label for="dPracsisSens1"> недоступно </label>
+              </div>
+            </div>
+
+            <div class="raport-block d-flex align-items-center"> <!-- добавить стрелочку-->
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapse1" aria-expanded="false"
+                   aria-controls="collapseExample">
+                Графическая проба
+              </div>
+              <div>
+                <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+              </div>
+              <button class="btn-sm bg-success pracsisButtons" id="pracsis_01"  (click)="saveObjectivePoint($event.target)"> OK </button>
+            </div>
+            <div class="collapse mb-4" id="collapse1">
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="grafics" class="inputs_pracsis grafic" value="с отрывом руки от листа" (change)="inputChange('grafics')">
+                <label for="grafics"> с отрывом руки от листа </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="grafics1"  class="inputs_pracsis grafic" value=" трудности переключения с одного движения на другое" (change)="inputChange('grafics1')">
+                <label for="grafics1"> трудности переключения с одного движения на другое </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="grafics2"  class="inputs_pracsis grafic" value="расширение программы" (change)="inputChange('grafics2')">
+                <label for="grafics2"> расширение программы</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="grafics3"  class="inputs_pracsis grafic" value="упрощение программы" (change)="inputChange('grafics3')">
+                <label for="grafics3"> упрощение программы</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="grafics4"  class="inputs_pracsis grafic" value="микрография" (change)="inputChange('grafics4')">
+                <label for="grafics4"> микрография</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="grafics5"  class="inputs_pracsis grafic" value="макрография" (change)="inputChange('grafics5')">
+                <label for="grafics5"> макрография</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="grafics6"  class="inputs_pracsis grafic" value="неудержание строки" (change)="inputChange('grafics6')">
+                <label for="grafics6"> неудержание строки</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="grafics7"  class="inputs_pracsis grafic" value="тремор" (change)="inputChange('grafics7')">
+                <label for="grafics7"> тремор </label>
+              </div>
+            </div>
+
+            <div class="raport-block d-flex align-items-center"> <!-- добавить стрелочку-->
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapse2" aria-expanded="false"
+                   aria-controls="collapseExample">
+                Проба на реципроную координацию
+              </div>
+              <div>
+                <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+              </div>
+              <button class="btn-sm bg-success pracsisButtons" id="pracsis_02"  (click)="saveObjectivePoint($event.target)"> OK </button>
+            </div>
+            <div class="collapse mb-4" id="collapse2">
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dReciproknaya"  class="inputs_pracsis rezz" value="трудности переключения с одного движения на другое" (change)="inputChange('dReciproknaya')">
+                <label for="dReciproknaya"> трудности переключения с одного движения на другое</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dReciproknaya1"  class="inputs_pracsis rezz" value="выполнение с отсаванием одной руки"  (change)="inputChange('dReciproknaya1')">
+                <label for="dReciproknaya1"> выполнение с отставанием одной руки</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dReciproknaya2"  class="inputs_pracsis rezz" value="поочереное выполнение "  (change)="inputChange('dReciproknaya2')">
+                <label for="dReciproknaya2"> поочереное выполнение </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dReciproknaya3" class="inputs_pracsis rezz" value="напряженность, замедленность"  (change)="inputChange('dReciproknaya3')">
+                <label for="dReciproknaya3"> напряженность, замедленность </label>
+              </div>
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapse" aria-expanded="false"
+                   aria-controls="collapseExample">
+                Выполнение пробы в условиях сенсибиизации
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dReciproknayaSens"  class="inputs_pracsis rezz" value="доступно"  (change)="inputChange('dReciproknayaSens')">
+                <label for="dReciproknayaSens"> доступно </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dReciproknayaSens1"  class="inputs_pracsis rezz" value="недоступно " (change)="inputChange('dReciproknayaSens1')" >
+                <label for="dReciproknayaSens1"> недоступно </label>
+              </div>
+            </div>
+
+            <div class="raport-block d-flex align-items-center"> <!-- добавить стрелочку-->
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapse3" aria-expanded="false"
+                   aria-controls="collapseExample">
+                Проба на праксис поз и оральный праксис
+              </div>
+              <div>
+                <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+              </div>
+              <button class="btn-sm bg-success pracsisButtons" id="pracsis_3" (click)="saveObjectivePoint($event.target)"> OK </button>
+            </div>
+            <div class="collapse mb-4" id="collapse3">
+              <div class="one-symptom d-flex align-items-center">
+                <div class="one-symptom d-flex align-items-center">
+                  <input type="checkbox" id="poses"  class="inputs_pracsis positoin" value="поиск поз" (change)="inputChange('poses')" >
+                  <label for="poses"> поиск поз </label>
+                </div>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="poses1"  class="inputs_pracsis positoin" value="зеркальность " (change)="inputChange('poses1')">
+                <label for="poses1"> зеркальность </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="poses2"  class="inputs_pracsis positoin" value="трудности переключения с одной позы на другую" (change)="inputChange('poses2')">
+                <label for="poses2"> трудности переключения с одной позы на другую </label>
+              </div>
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapse" aria-expanded="false"
+                   aria-controls="collapseExample"  >
+                Выполнение пробы со зрительным опосредованием
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="poses0"  class="inputs_pracsis positoin" value="да " (change)="inputChange('poses0')">
+                <label for="poses0"> да </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="poses01" class="inputs_pracsis positoin" value="нет" (change)="inputChange('poses01')">
+                <label for="poses01"> нет </label>
+              </div>
+            </div>
+
+            <div class="raport-block d-flex align-items-center"> <!-- добавить стрелочку-->
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapse4" aria-expanded="false"
+                   aria-controls="collapseExample">
+                Пробы Хэда
+              </div>
+              <div>
+                <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+              </div>
+              <button class="btn-sm bg-success pracsisButtons" id="pracsis_04" (click)="saveObjectivePoint($event.target)"> OK </button>
+            </div>
+
+            <div class="raport-block d-flex align-items-center"> <!-- добавить стрелочку-->
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapse5" aria-expanded="false"
+                   aria-controls="collapseExample">
+                Проба на слухомоторные координации
+              </div>
+              <div>
+                <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+              </div>
+              <button class="btn-sm bg-success pracsisButtons" id="pracsis_05" (click)="saveObjectivePoint($event.target)"> OK </button>
+            </div>
+            <div class="collapse mb-4" id="collapse5">
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapse" aria-expanded="false"
+                   aria-controls="collapseExample">
+                1.этап.Оценка ритмов
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="ears" class="inputs_pracsis rithms" value="переоценка" (change)="inputChange('ears')">
+                <label for="ears"> переоценка </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="ears1" class="inputs_pracsis rithms" value="недооценка" (change)="inputChange('ears1')">
+                <label for="ears1"> недооценка </label>
+              </div>
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapse" aria-expanded="false"
+                   aria-controls="collapseExample">
+                2.этап.Воспроизведение по образцу
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="ears2" class="inputs_pracsis rithms" value="лишние импульсы" (change)="inputChange('ears2')">
+                <label for="ears2"> лишние импульсы </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="ears3" class="inputs_pracsis rithms" value="трудности воспроизведения простых ритмов" (change)="inputChange('ears3')">
+                <label for="ears3"> трудности воспроизведения простых ритмов</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="ears4" class="inputs_pracsis rithms" value="трудности воспроизведения сложных ритмов" (change)="inputChange('ears4')">
+                <label for="ears4"> трудности воспроизведения сложных ритмов</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="ears5" class="inputs_pracsis rithms" value="трудности воспроизведения акцентированных ритмов" (change)="inputChange('ears5')">
+                <label for="ears5"> трудности воспроизведения акцентированных ритмов</label>
+              </div>
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapse" aria-expanded="false"
+                   aria-controls="collapseExample">
+                3.этап.Воспроизведение по инструкции
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="ears6" class="inputs_pracsis rithms" value="доступно" (change)="inputChange('ears6')">
+                <label for="ears6"> доступно </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="ears7" class="inputs_pracsis rithms" value="недоступно" (change)="inputChange('ears7')">
+                <label for="ears7"> недоступно </label>
+              </div>
+            </div>
+
+            <div class="raport-block d-flex align-items-center"> <!-- добавить стрелочку-->
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapse6" aria-expanded="false"
+                   aria-controls="collapseExample">
+                Проба на исследование движений глаз
+              </div>
+              <div>
+                <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+              </div>
+              <button class="btn-sm bg-success pracsisButtons" id="pracsis_06" (click)="saveObjectivePoint($event.target)"> OK </button>
+            </div>
+            <div class="collapse mb-4" id="collapse6">
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="eyes" class="inputs_pracsis eyesw" value="соскальзывание взора при движении влево-вправо" (change)="inputChange('eyes')">
+                <label for="eyes"> соскальзывание взора при движении влево-вправо </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="eyes1" class="inputs_pracsis eyesw" value="соскальзывание взора при движении вверх-вниз" (change)="inputChange('eyes1')">
+                <label for="eyes1"> соскальзывание взора при движении вверх-вниз </label>
+              </div>
+            </div>
+
+            <div class="raport-block d-flex align-items-center"> <!-- добавить стрелочку-->
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapse7" aria-expanded="false"
+                   aria-controls="collapseExample">
+                Проба на конструктивный праксис
+              </div>
+              <div>
+                <app-point-counter (onCountChange)="addPoint($event)" ></app-point-counter>
+              </div>
+              <button class="btn-sm bg-success pracsisButtons" id="pracsis_07" (click)="saveObjectivePoint($event.target)"> OK </button>
+            </div>
+            <div class="collapse mb-4" id="collapse7">
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="constructor"class="inputs_pracsis constructive" value="не может построить фигуру самостоятельно по картинке, необходима организующая помощь " (change)="inputChange('constructor')">
+                <label for="constructor"> не может построить фигуру самостоятельно по картинке, необходима организующая помощь</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="constructor1" class="inputs_pracsis  constructive" value="не может построить фигуру самостоятельно по картинке при организующей помощи
+                  и помощь неэффективна" (change)="inputChange('constructor1')">
+                <label for="constructor1"> не может построить фигуру самостоятельно по картинке при организующей помощи и помощь неэффективна</label>
+              </div>
+            </div>
+
+            <div class="raport-block d-flex align-items-center"> <!-- добавить стрелочку-->
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapse9" aria-expanded="false"
+                   aria-controls="collapseExample">
+                Проба на реакцию выбора
+              </div>
+              <div>
+                <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+              </div>
+              <button class="btn-sm bg-success pracsisButtons" id="pracsis_08" (click)="saveObjectivePoint($event.target)"> OK </button>
+            </div>
+            <div class="collapse mb-4" id="collapse9">
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="choseReaction" class="inputs_pracsis reaction" value="эхопраксия" (change)="inputChange('choseReaction')">
+                <label for="choseReaction"> эхопраксия </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="choseReaction1" class="inputs_pracsis reaction" value=" персеверации" (change)="inputChange('choseReaction1')">
+                <label for="choseReaction1"> персеверации </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="choseReaction2" class="inputs_pracsis reaction" value="импульсивность" (change)="inputChange('choseReaction2')">
+                <label for="choseReaction2"> импульсивность </label>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3>Гнозис</h3>
+            <div class="raport-block d-flex align-items-center"> <!-- добавить стрелочку-->
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapseGnosis"
+                   aria-expanded="false" aria-controls="collapseExample">
+                Проба на зрительный гнозис
+              </div>
+              <div>
+                <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+              </div>
+              <button class="btn-sm bg-success gnosisButtons" id="gnosis_0" (click)="saveObjectivePoint($event.target )"> OK </button>
+            </div>
+            <div class="collapse mb-4" id="collapseGnosis">
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dgnosis" value="фрагментарность"  class="inputs_gnosis vision" (change)="inputChange2($event.target)" >
+                <label for="dgnosis">фрагментарность </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dgnosis-1" value="зекральность"  class="inputs_gnosis vision" (change)="inputChange2($event.target)">
+                <label for="dgnosis-1"> зекральность</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dgnosis-12" value="трудности опознавания наложеных изображений"  class="inputs_gnosis vision" (change)="inputChange2($event.target)">
+                <label for="dgnosis-12"> трудности опознавания наложеных изображений </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dgnosis-2" value="трудности опознавания зашумленных изображений"  class="inputs_gnosis vision" (change)="inputChange2($event.target)">
+                <label for="dgnosis-2"> трудности опознавания зашумленных изображений</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dgnosis-3" value="трудности опознавания зашумленных букв"   class="inputs_gnosis vision"(change)="inputChange2($event.target)">
+                <label for="dgnosis-3"> трудности опознавания зашумленных букв </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dgnosis-11" value="псевдоагнозии"  class="inputs_gnosis vision" (change)="inputChange2($event.target)">
+                <label for="dgnosis-11"> псевдоагнозии</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dgnosis-13" value="игнорирование одной стороны зрительного поля или пониженное внимание к ней"  class="inputs_gnosis vision" (change)="inputChange2($event.target)">
+                <label for="dgnosis-13"> игнорирование одной стороны зрительного поля или пониженное внимание к ней </label>
+              </div>
+            </div>
+
+            <div class="raport-block d-flex align-items-center"> <!-- добавить стрелочку-->
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapseGnosisSymbol"
+                   aria-expanded="false" aria-controls="collapseExample">
+                Проба на зрительный символический гнозис (буквенный) гнозис
+              </div>
+              <div>
+                <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+              </div>
+              <button class="btn-sm bg-success gnosisButtons" id="gnosis_01" (click)="saveObjectivePoint( $event.target)"> OK </button>
+            </div>
+            <div class="collapse mb-4" id="collapseGnosisSymbol">
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dgnosisSymbol"  class="inputs_gnosis vision_symbol" value=" фрагментарность" (change)="inputChange2($event.target)">
+                <label for="dgnosisSymbol"> фрагментарность</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dgnosisSymbol-1" class="inputs_gnosis vision_symbol" value="зекральность" (change)="inputChange2($event.target)">
+                <label for="dgnosisSymbol-1"> зекральность</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dgnosisSymbol-12" class="inputs_gnosis vision_symbol" value="трудности опознавания наложеных изображений" (change)="inputChange2($event.target)">
+                <label for="dgnosisSymbol-12"> трудности опознавания наложеных изображений </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dgnosisSymbol-2" class="inputs_gnosis vision_symbol" value="трудности опознавания зашумленных изображений" (change)="inputChange2($event.target)">
+                <label for="dgnosisSymbol-2"> трудности опознавания зашумленных изображений</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dgnosisSymbol-3" class="inputs_gnosis vision_symbol" value="трудности опознавания зашумленных букв" (change)="inputChange2($event.target)">
+                <label for="dgnosisSymbol-3"> трудности опознавания зашумленных букв </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dgnosisSymbol-11" class="inputs_gnosis vision_symbol" value=" псевдоагнозии" (change)="inputChange2($event.target)">
+                <label for="dgnosisSymbol-11"> псевдоагнозии</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dgnosisSymbol-13" class="inputs_gnosis vision_symbol" value=" игнорирование одной стороны зрительного поля или пониженное внимание к ней " (change)="inputChange2($event.target)">
+                <label for="dgnosisSymbol-13"> игнорирование одной стороны зрительного поля или пониженное внимание к ней </label>
+              </div>
+            </div>
+
+            <div class="raport-block d-flex align-items-center"> <!-- добавить стрелочку-->
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapseGnosis1"
+                   aria-expanded="false" aria-controls="collapseExample">
+                Проба на слуховой гнозис
+              </div>
+              <div>
+                <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+              </div>
+              <button class="btn-sm bg-success gnosisButtons" id="gnosis_02" (click)="saveObjectivePoint($event.target)"> OK </button>
+            </div>
+            <div class="collapse mb-4" id="collapseGnosis1">
+              <div class="one-symptom d-flex align-items-center" >
+                <div class="symptom-name"> Опознает неречевые шумы</div>
+                <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <div class="symptom-name"> Слуховое невнимание</div>
+                <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+              </div>
+            </div>
+
+            <div class="raport-block d-flex align-items-center"> <!-- добавить стрелочку-->
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapseGnosis2"
+                   aria-expanded="false" aria-controls="collapseExample">
+                Проба на тактильный гнозис
+              </div>
+              <div>
+                <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+              </div>
+              <button class="btn-sm bg-success gnosisButtons" id="gnosis_03" (click)="saveObjectivePoint($event.target)"> OK </button>
+            </div>
+            <div class="collapse mb-4" id="collapseGnosis2">
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dtactil" value="ошибки в оценке локализации прикосновения в 1 см и более" class="inputs_gnosis tactilo"  (change)="inputChange2($event.target)">
+                <label for="dtactil"> ошибки в оценке локализации прикосновения в 1 см и более</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dtactil1" value= "игнорирование прикосновения на одной руке при двуручных касаниях" class="inputs_gnosis tactilo"  (change)="inputChange2($event.target)">
+                <label for="dtactil1"> игнорирование прикосновения на одной руке при двуручных касаниях </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="dtactil2" value=" затруднение при узнавании предметов на ощупь" class="inputs_gnosis tactilo"  (change)="inputChange2($event.target)">
+                <label for="dtactil2"> затруднение при узнавании предметов на ощупь </label>
+              </div>
+            </div>
+
+            <div class="raport-block d-flex align-items-center"> <!-- добавить стрелочку-->
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapseGnosis3"
+                   aria-expanded="false" aria-controls="collapseExample">
+                Проба на эмоциональный гнозис
+              </div>
+              <div>
+                <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+              </div>
+              <button class="btn-sm bg-success gnosisButtons" id="gnosis_04" (click)="saveObjectivePoint($event.target)"> OK </button>
+            </div>
+            <div class="collapse mb-4" id="collapseGnosis3">
+              <div class="one-symptom d-flex align-items-center">
+                <div class="one-symptom d-flex align-items-center">
+                  <input type="checkbox" id="emotionalGnosis" class="inputs_gnosis emotions" value=" ошибки в идентификации эмойий по знаку (веселый-грустный)" (change)="inputChange2($event.target)">
+                  <label for="emotionalGnosis"> ошибки в идентификации эмойий по знаку (веселый-грустный) </label>
+                </div>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="emotionalGnosis1" class="inputs_gnosis emotions" value="ошибки в идентификации эмойий по качеству (веселый-гордый)" (change)="inputChange2($event.target)">
+                <label for="emotionalGnosis1"> ошибки в идентификации эмойий по качеству (веселый-гордый) </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="emotionalGnosis2" class="inputs_gnosis emotions" value="трудности переключения с одной позы на другую" (change)="inputChange2($event.target)">
+                <label for="emotionalGnosis2"> трудности переключения с одной позы на другую </label>
+              </div>
+            </div>
+
+            <div class="raport-block d-flex align-items-center"> <!-- добавить стрелочку-->
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapseGnosisCopy"
+                   aria-expanded="false" aria-controls="collapseExample">
+                Копирование
+              </div>
+              <div>
+                <app-point-counter  (onCountChange)="addPoint($event)"></app-point-counter>
+              </div>
+              <button class="btn-sm bg-success gnosisButtons" id="gnosis_05" (click)="saveObjectivePoint($event.target)"> OK </button>
+            </div>
+            <div class="collapse mb-4" id="collapseGnosisCopy">
+              <div class="one-symptom d-flex align-items-center" >
+                <input type="checkbox" id="copy" class="inputs_gnosis copy" value=" хаотичная стратегия" (change)="inputChange2($event.target)">
+                <label for="copy"> хаотичная стратегия</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="copy1" class="inputs_gnosis copy" value="холистическая стратегия " (change)="inputChange2($event.target)">
+                <label for="copy1"> холистическая стратегия </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="copy2" class="inputs_gnosis copy" value="структрно-топологические ошибки" (change)="inputChange2($event.target)">
+                <label for="copy2"> структрно-топологические ошибки </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="copy3" class="inputs_gnosis copy" value="координатные ошибки" (change)="inputChange2($event.target)">
+                <label for="copy3"> координатные ошибки </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="copy4" class="inputs_gnosis copy" value="метрические ошибки" (change)="inputChange2($event.target)">
+                <label for="copy4"> метрические ошибки </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="copy5" class="inputs_gnosis copy" value=" проекционные ошибки " (change)="inputChange2($event.target)">
+                <label for="copy5"> проекционные ошибки </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="copy6" class="inputs_gnosis copy" value="выраженные латеральные отличия " (change)="inputChange2($event.target)">
+                <label for="copy6"> выраженные латеральные отличия </label>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3>Память</h3>
+            <div class="raport-block d-flex align-items-center"> <!-- добавить стрелочку-->
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapseMemory"
+                   aria-expanded="false" aria-controls="collapseExample">
+
+                Проба на зрительно-пространственую память "5 фигур"
+              </div>
+              <div>
+                <app-point-counter (onCountChange)="addPoint($event)" ></app-point-counter>
+              </div>
+              <button class="btn-sm bg-success memoryButtons" id="memory_0" (click)="saveObjectivePoint($event.target)"> OK </button>
+            </div>
+            <div class="collapse mb-4" id="collapseMemory">
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="visualMemory" class="inputs_memory visionSpaceMemory" value="сужение объёма"  (change)="inputChange2($event.target)">
+                <label for="visualMemory"> сужение объёма</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="visualMemory1" class="inputs_memory visionSpaceMemory" value="параграфии" (change)="inputChange2($event.target)">
+                <label for="visualMemory1"> параграфии</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="visualMemory2" class="inputs_memory visionSpaceMemory" value="инверсия вектора воспроизведения" (change)="inputChange2($event.target)">
+                <label for="visualMemory2"> инверсия вектора воспроизведения</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="visualMemory3" class="inputs_memory visionSpaceMemory" value="персеверации" (change)="inputChange2($event.target)">
+                <label for="visualMemory3"> персеверации</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="visualMemory4" class="inputs_memory visionSpaceMemory" value="фрагментарность" (change)="inputChange2($event.target)">
+                <label for="visualMemory4"> фрагментарность</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="visualMemory5" class="inputs_memory visionSpaceMemory" value="низкая продуктивность" (change)="inputChange2($event.target)">
+                <label for="visualMemory5"> низкая продуктивность</label>
+              </div>
+            </div>
+            <div class="raport-block d-flex align-items-center"> <!-- добавить стрелочку-->
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapseMemory1"
+                   aria-expanded="false" aria-controls="collapseExample">
+                Проба на зрительную память "2/3"
+              </div>
+          <div>
+            <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+          </div>
+              <button class="btn-sm bg-success memoryButtons" id="memory_01" (click)="saveObjectivePoint($event.target)"> OK </button>
+        </div>
+        <div class="collapse mb-4" id="collapseMemory1">
+          <div class="one-symptom d-flex align-items-center">
+            <input type="checkbox" id="2to3" class="inputs_memory visionMemory" value="смешение перцептивно близких картинок" (change)="inputChange2($event.target)">
+            <label for="2to3"> смешение перцептивно близких картинок</label>
+          </div>
+          <div class="one-symptom d-flex align-items-center">
+            <input type="checkbox" id="2to31" class="inputs_memory visionMemory" value="смешение перцептивно далеких картинок" (change)="inputChange2($event.target)">
+            <label for="2to31"> смешение перцептивно далеких картинок</label>
+          </div>
+          <div class="one-symptom d-flex align-items-center">
+            <input type="checkbox" id="2to32" class="inputs_memory visionMemory" value="контаминации обеих групп" (change)="inputChange2($event.target)">
+            <label for="2to32"> контаминации обеих групп</label>
+          </div>
+          <div class="one-symptom d-flex align-items-center">
+            <input type="checkbox" id="2to33" class="inputs_memory visionMemory" value="конфабуляции" (change)="inputChange2($event.target)">
+            <label for="2to33"> конфабуляции</label>
+          </div>
+          <div class="one-symptom d-flex align-items-center">
+            <input type="checkbox" id="2to34" class="inputs_memory visionMemory" value="сужение объема" (change)="inputChange2($event.target)">
+            <label for="2to34"> сужение объема</label>
+          </div>
+          <div class="one-symptom d-flex align-items-center">
+            <input type="checkbox" id="2to35" class="inputs_memory visionMemory" value="инактивность" (change)="inputChange2($event.target)">
+            <label for="2to35"> инактивность</label>
+          </div>
+        </div>
+
+            <div class="raport-block d-flex align-items-center"> <!-- добавить стрелочку-->
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#speachMemory"
+                   aria-expanded="false" aria-controls="collapseExample">
+                Проба на слухоречевую память "10 слов"
+              </div>
+              <div>
+                <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+              </div>
+              <button class="btn-sm bg-success memoryButtons" id="memory_02" (click)="saveObjectivePoint($event.target)"> OK </button>
+
+
+                <table class="table-bordered border-success">
+                  <thead>
+                  <tr>
+                    <td> № п\п</td>
+                    <td> Количество слов</td>
+                  <tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td> 1. </td>
+                    <td>
+                      <input class="memoryPoint border-0 " type="number" placeholder="10" value="" [(ngModel)]="memoryForm.memory_count_1"  >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td> 2. </td>
+                    <td> <input class=" memoryPoint border-0 " type="number" placeholder="10"  [(ngModel)]="memoryForm.memory_count_2" ></td>
+                  </tr>
+                  <tr>
+                    <td> 3. </td>
+                    <td> <input class="memoryPoint border-0 " type="number" placeholder="10"  [(ngModel)]="memoryForm.memory_count_3"  ></td>
+                  </tr>
+                  <tr>
+                    <td> 4. </td>
+                    <td> <input class="memoryPoint border-0 " type="number" placeholder="10"  [(ngModel)]="memoryForm.memory_count_4" ></td>
+                  </tr>
+                  <tr>
+                    <td> 5. </td>
+                    <td> <input class="memoryPoint border-0 " type="number" placeholder="10"  [(ngModel)]="memoryForm.memory_count_5" ></td>
+                  </tr>
+                  <tr>
+                    <td> ОП </td>
+                    <td> <input class="memoryPoint border-0 " type="number" placeholder="10"  [(ngModel)]="memoryForm.memory_count_6" ></td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            <div class="collapse mb-4" id="speachMemory">
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="audioMemory" class="inputs_memory auditMemory" value="сужение объема" (change)="inputChange2($event.target)">
+                <label for="audioMemory"> сужение объема</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="audioMemory-1" class="inputs_memory auditMemory" value="плато" (change)="inputChange2($event.target)">
+                <label for="audioMemory-1"> плато</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="audioMemory2" class="inputs_memory auditMemory" value="инактивность" (change)="inputChange2($event.target)">
+                <label for="audioMemory2"> инактивность </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="audioMemory-2" class="inputs_memory auditMemory" value="эффект края" (change)="inputChange2($event.target)">
+                <label for="audioMemory-2"> эффект края</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="audioMemory-3" class="inputs_memory auditMemory" value="литеральные парафазии" (change)="inputChange2($event.target)">
+                <label for="audioMemory-3"> литеральные парафазии</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="audioMemory-4" class="inputs_memory auditMemory" value="вербальные парафазии" (change)="inputChange2($event.target)">
+                <label for="audioMemory-4"> вербальные парафазии</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="audioMemory-5" class="inputs_memory auditMemory" value="персеверации" (change)="inputChange2($event.target)">
+                <label for="audioMemory-5"> персеверации</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="audioMemory-6" class="inputs_memory auditMemory" value="флуктуации" (change)="inputChange2($event.target)">
+                <label for="audioMemory-6"> флуктуации</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="audioMemory-7" class="inputs_memory auditMemory" value="низкая продуктивность" (change)="inputChange2($event.target)">
+                <label for="audioMemory-7"> низкая продуктивность</label>
+              </div>
+            </div>
+
+            <div class="raport-block d-flex align-items-center"> <!-- добавить стрелочку-->
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#speachMemory2to3"
+                   aria-expanded="false" aria-controls="collapseExample">
+                Проба на слухоречевую память "2/3"
+              </div>
+              <div>
+                <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+              </div>
+              <button class="btn-sm bg-success memoryButtons" id="memory_03" (click)="saveObjectivePoint($event.target)"> OK </button>
+            </div>
+            <div class="collapse mb-4" id="speachMemory2to3">
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="audioMemory2to3" class="inputs_memory auditMemory2_3" value="сужение объема" (change)="inputChange2($event.target)">
+                <label for="audioMemory2to3"> сужение объема</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="audioMemory2to31" class="inputs_memory auditMemory2_3" value="контаминации" (change)="inputChange2($event.target)">
+                <label for="audioMemory2to31"> контаминации обеих групп</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="audioMemory2to32" class="inputs_memory auditMemory2_3" value="литеральные парафазии" (change)="inputChange2($event.target)">
+                <label for="audioMemory2to32"> литеральные парафазии</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="audioMemory2to33" class="inputs_memory auditMemory2_3" value="вербальные парафазии" (change)="inputChange2($event.target)">
+                <label for="audioMemory2to33"> вербальные парафазии</label>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3>Счет</h3>
+            <div class="raport-block d-flex align-items-center"> <!-- добавить стрелочку-->
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapseCounting"
+                   aria-expanded="false" aria-controls="collapseExample">
+                Серийный счет "100-7"/"40-3"
+              </div>
+              <div>
+                <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+              </div>
+              <button class="btn-sm bg-success calcButtons" id="counting_0" (click)="saveObjectivePoint($event.target)"> OK </button>
+            </div>
+            <div class="collapse mb-4" id="collapseCounting">
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="serialCounting" class="inputs_counting serial" value="ошибки в единицах" (change)="inputChange2($event.target)">
+                <label for="serialCounting"> ошибки в единицах</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="serialCounting1" class="inputs_counting serial" value="ошибки в десятках" (change)="inputChange2($event.target)">
+                <label for="serialCounting1"> ошибки в десятках</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="serialCounting2" class="inputs_counting serial" value="импульсивность" (change)="inputChange2($event.target)">
+                <label for="serialCounting2"> импульсивность</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="serialCounting3" class="inputs_counting serial" value="персеверации" (change)="inputChange2($event.target)">
+                <label for="serialCounting3"> персеверации</label>
+              </div>
+           <!--   <div class="block-title bg-light" data-toggle="collapse" data-target="#collapse" aria-expanded="false"
+                   aria-controls="collapseExample">
+                Эффективность помощи
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="helpThink" value="эффективна">
+                <label for="helpThink"> эффективна </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="helpThink1" value="неэффективна">
+                <label for="helpThink1"> неэффективна </label>
+              </div>
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapse" aria-expanded="false"
+                   aria-controls="collapseExample">
+                Характер  помощи
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="helpThink2" value="незначительная">
+                <label for="helpThink2"> незначительная </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="helpThink3" value="массированная">
+                <label for="helpThink3"> массированная </label>
+              </div>-->
+            </div>
+
+            <div class="raport-block d-flex align-items-center"> <!-- добавить стрелочку-->
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#solvingProblems"
+                   aria-expanded="false" aria-controls="collapseExample">
+                Решение примеров
+              </div>
+              <div>
+                <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+              </div>
+              <button class="btn-sm bg-success calcButtons" id="counting_01" (click)="saveObjectivePoint($event.target)"> OK </button>
+            </div>
+            <div class="collapse mb-4" id="solvingProblems">
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="solve" class="inputs_counting tasks_solv" value="трудности удержания промежуточного результата" (change)="inputChange2($event.target)">
+                <label for="solve"> трудности удержания промежуточного результата</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="solve1" class="inputs_counting tasks_solv" value="персеверации" (change)="inputChange2($event.target)">
+                <label for="solve1"> персеверации</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="solve2" class="inputs_counting tasks_solv" value="аспонтанность" (change)="inputChange2($event.target)">
+                <label for="solve2"> аспонтанность</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="solve3" class="inputs_counting tasks_solv" value="трудности понимания разрядного состава числа" (change)="inputChange2($event.target)">
+                <label for="solve3">трудности понимания разрядного состава числа</label>
+              </div>
+           <!--   <div class="block-title bg-light" data-toggle="collapse" data-target="#collapse" aria-expanded="false"
+                   aria-controls="collapseExample">
+                Эффективность помощи
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="helpThink4" value="эффективна">
+                <label for="helpThink4"> эффективна </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="helpThink5" value="неэффективна">
+                <label for="helpThink5"> неэффективна </label>
+              </div>
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapse" aria-expanded="false"
+                   aria-controls="collapseExample">
+                Характер  помощи
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="helpThink6" value="незначительная">
+                <label for="helpThink6"> незначительная </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="helpThink7" value="массированная">
+                <label for="helpThink7"> массированная </label>
+              </div>-->
+            </div>
+
+          </div>
+
+          <div>
+            <h3>Мышление</h3>
+            <div class="raport-block d-flex align-items-center"> <!-- добавить стрелочку-->
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapseSolving"
+                   aria-expanded="false" aria-controls="collapseExample">
+                Решение задач
+              </div>
+              <div>
+                <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+              </div>
+              <button class="btn-sm bg-success thinkButtons" id="thinking_00" (click)="saveObjectivePoint($event.target)"> OK </button>
+            </div>
+            <div class="collapse mb-4" id="collapseSolving">
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="mathProblem" class="inputs_thinking problems" value="трудности построения алгоритма решения задачи" (change)="inputChange2($event.target)">
+                <label for="mathProblem"> трудности построения алгоритма решения задачи</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="mathProblem1" class="inputs_thinking problems" value="аспонтанность" (change)="inputChange2($event.target)">
+                <label for="mathProblem1"> аспонтанность</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="mathProblem2" class="inputs_thinking problems" value="импульсивность" (change)="inputChange2($event.target)">
+                <label for="mathProblem2"> импульсивность</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="mathProblem3" class="inputs_thinking problems" value="персеверации" (change)="inputChange2($event.target)">
+                <label for="mathProblem3"> персеверации</label>
+              </div>
+            <!--  <div class="block-title bg-light" data-toggle="collapse" data-target="#collapse" aria-expanded="false"
+                   aria-controls="collapseExample">
+                Эффективность помощи
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="helpThink8">
+                <label for="helpThink8"> эффективна </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="helpThink9">
+                <label for="helpThink9"> неэффективна </label>
+              </div>
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapse" aria-expanded="false"
+                   aria-controls="collapseExample">
+                Характер  помощи
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="helpThink10">
+                <label for="helpThink10"> незначительная </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="helpThink11">
+                <label for="helpThink11"> массированная </label>
+              </div>-->
+            </div>
+            <div class="raport-block d-flex align-items-center"> <!-- добавить стрелочку-->
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#analog"
+                   aria-expanded="false" aria-controls="collapseExample">
+               Аналогии
+              </div>
+              <div>
+                <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+              </div>
+              <button class="btn-sm bg-success thinkButtons" id="thinking_01" (click)="saveObjectivePoint($event.target)"> OK </button>
+            </div>
+            <div class="collapse mb-4" id="analog">
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="analogTask" class="inputs_thinking analog" value="трудности переноса " (change)="inputChange2($event.target)">
+                <label for="analogTask"> трудности переноса </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="analogTask1" class="inputs_thinking analog" value="персеверации" (change)="inputChange2($event.target)">
+                <label for="analogTask1"> персеверации</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="analogTask2" class="inputs_thinking analog" value="аспонтанность" (change)="inputChange2($event.target)">
+                <label for="analogTask2"> аспонтанность</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="analogTask3" class="inputs_thinking analog" value="импульсивность" (change)="inputChange2($event.target)">
+                <label for="analogTask3"> импульсивность</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="analogTask4" class="inputs_thinking analog" value="флуктуации" (change)="inputChange2($event.target)">
+                <label for="analogTask4"> флуктуации</label>
+              </div>
+          <!--    <div class="block-title bg-light" data-toggle="collapse" data-target="#collapse" aria-expanded="false"
+                   aria-controls="collapseExample">
+                Эффективность помощи
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="helpThink12">
+                <label for="helpThink12"> эффективна </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="helpThink13">
+                <label for="helpThink13"> неэффективна </label>
+              </div>
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapse" aria-expanded="false"
+                   aria-controls="collapseExample">
+                Характер  помощи
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="helpThink14">
+                <label for="helpThink14"> незначительная </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="helpThink15">
+                <label for="helpThink15"> массированная </label>
+              </div>-->
+            </div>
+            <div class="raport-block d-flex align-items-center"> <!-- добавить стрелочку-->
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#four"
+                   aria-expanded="false" aria-controls="collapseExample">
+                Исключение 4-го лишнего
+              </div>
+              <div>
+                <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+              </div>
+              <button class="btn-sm bg-success thinkButtons" id="thinking_02" (click)="saveObjectivePoint($event.target)"> OK </button>
+            </div>
+            <div class="collapse mb-4" id="four">
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="four1" class="inputs_thinking exclude4" value="исключает по ситуативному признаку" (change)="inputChange2($event.target)">
+                <label for="four1"> исключает по ситуативному признаку</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="four2" class="inputs_thinking exclude4" value="персеверации" (change)="inputChange2($event.target)">
+                <label for="four2"> персеверации</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="four3" class="inputs_thinking exclude4" value="аспонтанность" (change)="inputChange2($event.target)">
+                <label for="four3"> аспонтанность</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="four4" class="inputs_thinking exclude4" value="импульсивность" (change)="inputChange2($event.target)">
+                <label for="four4"> импульсивность</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="four5" class="inputs_thinking exclude4" value="флуктуации" (change)="inputChange2($event.target)">
+                <label for="four5"> флуктуации</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="four6"  value="трудности вербализации выявленных существенных связей" class="inputs_thinking exclude4">
+                <label for="four6"> трудности вербализации выявленных существенных связей</label>
+              </div>
+          <!--    <div class="block-title bg-light" data-toggle="collapse" data-target="#collapse" aria-expanded="false"
+                   aria-controls="collapseExample">
+                Эффективность помощи
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="helpThink16">
+                <label for="helpThink16"> эффективна </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="helpThink17">
+                <label for="helpThink17"> неэффективна </label>
+              </div>
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapse" aria-expanded="false"
+                   aria-controls="collapseExample">
+                Характер  помощи
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="helpThink18">
+                <label for="helpThink18"> незначительная </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="helpThink19">
+                <label for="helpThink19"> массированная </label>
+              </div>-->
+            </div>
+            <div class="raport-block d-flex align-items-center"> <!-- добавить стрелочку-->
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#meaning"
+                   aria-expanded="false" aria-controls="collapseExample">
+               Понимание смысла рассказов
+              </div>
+              <div>
+                <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+              </div>
+              <button class="btn-sm bg-success thinkButtons" id="thinking_03" (click)="saveObjectivePoint($event.target)"> OK </button>
+            </div>
+         <!--   <div class="collapse mb-4" id="meaning">
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="mean" value="трудности удержания промежуточного результата" class="inputs_thinking understanding" (change)="inputChange2($event.target)">
+                <label for="mean"> трудности удержания просмежуточного результата</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="mean1" value="персеверации" class="inputs_thinking understanding" (change)="inputChange2($event.target)">
+                <label for="mean1"> персеверации</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="mean2" value="аспонтанность" class="inputs_thinking understanding" (change)="inputChange2($event.target)">
+                <label for="mean2"> аспонтанность</label>
+              </div>
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapse" aria-expanded="false"
+                   aria-controls="collapseExample" >
+                Эффективность помощи
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="helpThink20">
+                <label for="helpThink20"> эффективна </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="helpThink21">
+                <label for="helpThink21"> неэффективна </label>
+              </div>
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapse" aria-expanded="false"
+                   aria-controls="collapseExample">
+                Характер  помощи
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="helpThink22">
+                <label for="helpThink22"> незначительная </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="helpThink23">
+                <label for="helpThink23"> массированная </label>
+              </div>
+            </div> -->
+            <div class="raport-block d-flex align-items-center">
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#pictureMeaning"
+                   aria-expanded="false" aria-controls="collapseExample">
+                Понимание смысла серии сюжетных картин
+              </div>
+              <div>
+                <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+              </div>
+              <button class="btn-sm bg-success thinkButtons" id="thinking_04" (click)="saveObjectivePoint($event.target)"> OK </button>
+            </div>
+        <!--    <div class="collapse mb-4" id="pictureMeaning">
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="pic" value="трудности удержания просмежуточного результата" class="inputs_thinking understanding_pictures" (change)="inputChange2($event.target)">
+                <label for="pic"> трудности удержания просмежуточного результата</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="pic1" value="персеверации" class="inputs_thinking understanding_pictures" (change)="inputChange2($event.target)">
+                <label for="pic1"> персеверации</label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="pic2" value="аспонтанность" class="inputs_thinking understanding_pictures" (change)="inputChange2($event.target)">
+                <label for="pic2"> аспонтанность</label>
+              </div>
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapse" aria-expanded="false"
+                   aria-controls="collapseExample">
+                Эффективность помощи
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="helpThink24">
+                <label for="helpThink24"> эффективна </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="helpThink25">
+                <label for="helpThink25"> неэффективна </label>
+              </div>
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#collapse" aria-expanded="false"
+                   aria-controls="collapseExample">
+                Характер  помощи
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="helpThink26">
+                <label for="helpThink26"> незначительная </label>
+              </div>
+              <div class="one-symptom d-flex align-items-center">
+                <input type="checkbox" id="helpThink27">
+                <label for="helpThink27"> массированная </label>
+              </div>
+            </div>-->
+            <div class="raport-block d-flex align-items-center">
+              <div class="block-title bg-light" data-toggle="collapse" data-target="#pictureMeaning"
+                   aria-expanded="false" aria-controls="collapseExample">
+                Понимание смысла симультвнных сюжетных картин
+              </div>
+              <div>
+                <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+              </div>
+              <button class="btn-sm bg-success thinkButtons" id="thinking_05" (click)="saveObjectivePoint($event.target)"> OK </button>
+            </div>
+            <div class="raport-block d-flex align-items-center">
+            <div class="block-title bg-light" data-toggle="collapse" data-target="#proverbs"
+                 aria-expanded="false" aria-controls="collapseExample">
+             Понимание пословиц, поговорок
+            </div>
+            <div>
+              <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+            </div>
+              <button class="btn-sm bg-success thinkButtons" id="thinking_06" (click)="saveObjectivePoint($event.target)"> OK </button>
+          </div>
+
+
+          </div>
+
+          <div>
+            <h3> Речь</h3>
+            <textarea rows="10" cols="80" [(ngModel)]="speech"></textarea>
+          </div>
+          <div class="raport-block d-flex align-items-center"> <!-- добавить стрелочку-->
+            <div class="block-title bg-light" data-toggle="collapse" data-target="#shulte2"
+                 aria-expanded="false" aria-controls="collapseExample">
+             Таблицы Шульте
+            </div>
+            <div>
+              <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+            </div>
+            <button class="btn-sm bg-success shulteButtons" id="shulte" (click)="saveObjectivePoint($event.target)"> OK </button>
+
+            <table class="table-bordered border-success">
+              <thead>
+              <tr>
+                <td> № п\п</td>
+                <td> Время</td>
+              <tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td> 1. </td>
+                <td>
+                  <input  class="border-0"   type="number" placeholder="10" value="" [(ngModel)]="shulteForm.shulte_1_table"  >
+                </td>
+              </tr>
+              <tr>
+                <td> 2. </td>
+                <td> <input class="  border-0 " type="number" placeholder="10"  [(ngModel)]="shulteForm.shulte_2_table" ></td>
+              </tr>
+              <tr>
+                <td> 3. </td>
+                <td> <input class=" border-0 " type="number" placeholder="10"  [(ngModel)]="shulteForm.shulte_3_table"  ></td>
+              </tr>
+              <tr>
+                <td> 4. </td>
+                <td> <input class=" border-0 " type="number" placeholder="10"  [(ngModel)]="shulteForm.shulte_4_table" ></td>
+              </tr>
+              <tr>
+                <td> 5. </td>
+                <td> <input class=" border-0 " type="number" placeholder="10"  [(ngModel)]="shulteForm.shulte_5_table" ></td>
+              </tr>
+              </tbody>
+            </table>
+
+          </div>
+
+          <div class="collapse mb-4" id="shulte2">
+            <div class="one-symptom d-flex align-items-center">
+              <input type="checkbox" class="shultePoint" id="shulte3"   value="сужение объема"  (change)="inputChange2($event.target)">
+              <label for="shulte3"> сужение объема</label>
+            </div>
+            <div class="one-symptom d-flex align-items-center">
+              <input type="checkbox" id="shulte4"  value="плато"  class="shultePoint" (change)="inputChange2($event.target)">
+              <label for="shulte4"> плато</label>
+            </div>
+            <div class="one-symptom d-flex align-items-center">
+              <input type="checkbox" id="shulte5"  value="инактивность"  class="shultePoint" (change)="inputChange2($event.target)">
+              <label for="shulte5"> инактивность </label>
+            </div>
+            <div class="one-symptom d-flex align-items-center">
+              <input type="checkbox" id="shulte6"  value="персеверации"  class="shultePoint" (change)="inputChange2($event.target)">
+              <label for="shulte6"> персеверации</label>
+            </div>
+            <div class="one-symptom d-flex align-items-center">
+              <input type="checkbox" id="shulte7"  value="флуктуации"  class="shultePoint" (change)="inputChange2($event.target)">
+              <label for="shulte7"> флуктуации</label>
+            </div>
+            <div class="one-symptom d-flex align-items-center">
+              <input type="checkbox" id="shulte8"  value="низкая продуктивность"  class="shultePoint" (change)="inputChange2($event.target)">
+              <label for="shulte8"> низкая продуктивность</label>
+            </div>
+          </div>
+
+
+
+        </div>
+     <!-- </div>-->
+    <!--</div>-->
+  </div>
+</div>
+
+<div>
+  <button class="btn bg-success" (click)="goToSummary(clientName,birthDate,searchDate,complaints, medicalAnamnesis, socialAnamnesis, speech)">Сохранить</button>
+  <!--кнопка сохраняет протокол и переводит пользователя на страницу заключения -->
+</div>
+
+
+
+</div>
+</div>

@@ -1,0 +1,33 @@
+.point-counter{
+  display: flex;
+  justify-content: space-between;
+  width: 97px;
+  align-items: center;
+
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+
+    svg path {
+      fill: green;
+    }
+  }
+
+  .small-input {
+    border: 1px solid #6CAC72;
+    border-radius: 5px;
+    text-align: center;
+    padding: 2px;
+    box-sizing: border-box;
+    width: 35px;
+    height: 20px;
+    font-family: 'Font Awesome 5 Free', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 23px;
+    color: green;
+  }
+}
