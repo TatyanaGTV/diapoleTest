@@ -4,5 +4,9 @@ export type PropertyType = {
   buttonId: string,
   description?: string[]
   descriptionTempo?: string[]
-  descriptionDinamic?: string[]
+  descriptionDinamic?: string[],
+  descriptionGeneral?: string[],
+  descriptionNatureOfHelp?: string[],
+  descriptionWhereHelp?: string[],
+  descriptionEffectOfHelp?: string[]
 }

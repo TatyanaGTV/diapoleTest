@@ -10,7 +10,7 @@ import {PropertyType} from "../../types/property.type";
   styleUrls: ['./main-raport-page.component.scss']
 })
 export class MainRaportPageComponent implements OnInit  {
-  @Input()count: number   = 0;
+  @Input()count: number  = -1;
   isChecked: boolean = false;
   clientName:string = '';
   birthDate: string = '';
@@ -29,16 +29,18 @@ export class MainRaportPageComponent implements OnInit  {
     'doing tasks',
     'accepting help'
   ]
+
   generalCharacteristic: PropertyType[] = [
     {
       name: 'contact',
-      point: this.count,
+      point: this.count? this.count : -1,
       buttonId: "00",
     },
     {
       name: 'entranceToConversation',
       point: this.count,
       buttonId: "01",
+      description: []
     },
     {
       name: 'orientation',
@@ -104,7 +106,10 @@ export class MainRaportPageComponent implements OnInit  {
       name:  'accepting help',
       point: this.count,
       buttonId: "013",
-      description: []
+      descriptionGeneral: [],
+      descriptionNatureOfHelp: [],
+      descriptionWhereHelp: [],
+      descriptionEffectOfHelp: []
     },
   ]
   pracsis: PropertyType[]  =  [
@@ -169,6 +174,12 @@ export class MainRaportPageComponent implements OnInit  {
       name: 'vision gnosis',
       point: this.count,
       buttonId: "gnosis_0",
+      description:[]
+    },
+    {
+      name: 'vision_space gnosis',
+      point: this.count,
+      buttonId: "gnosis_00",
       description:[]
     },
     {
@@ -265,6 +276,7 @@ export class MainRaportPageComponent implements OnInit  {
       name: 'understanding',
       point: this.count,
       buttonId: "thinking_03",
+      description: []
     },
     {
       name: 'understanding serial pictures',
@@ -290,6 +302,13 @@ export class MainRaportPageComponent implements OnInit  {
       description:[]
     },
   ]
+  attentionChild:PropertyType[] = [
+    {
+      name: 'attentionChild',
+      point: this.count,
+      buttonId: "faces",
+    },
+  ]
   speech: string = '';
 
   regulation: PropertyType[] = []
@@ -308,7 +327,16 @@ export class MainRaportPageComponent implements OnInit  {
     shulte_4_table:'',
     shulte_5_table:'',
   }
-
+  facesTimeForm = {
+    facesTime_1: '',
+    facesTime_2: '',
+    facesTime_3: '',
+  }
+  facesWrongsForm = {
+    facesWrongs_1: '',
+    facesWrongs_2: '',
+    facesWrongs_3: '',
+  }
   completedRaport = [
     {
       name: 'factInformation',
@@ -357,6 +385,10 @@ export class MainRaportPageComponent implements OnInit  {
     {
       name: 'attention',
       results: this.attention
+    },
+    {
+      name: 'attentionChild',
+      results: this.attentionChild
     },
 
   ]
@@ -453,10 +485,18 @@ buttons(){
         }
       }
     }
+    if (this.attentionChild){
+      for (let i = 0; i <  this.attentionChild.length; i++) {
+        if ( button_id ===  this.attentionChild[i].buttonId) {
+          this.attentionChild[i].point = this.count
+          console.log( this.attentionChild[i].point)
+        }
+      }
+    }
 
 
   }
-
+//отмечает инпут как чекнутый и записывает значение его в переменную
   inputChange(inputId: string ){
     let inputs = document.getElementsByClassName('inputs')
     let inputsArr = Array.from(inputs)
@@ -470,6 +510,13 @@ buttons(){
          if (definitedInput.hasAttribute('value')){
              inputValue  = definitedInput.getAttribute('value')
            console.log( inputValue)
+           if (definitedInput.className === 'inputs entrance') {
+             let entranceItem = this.generalCharacteristic.find(item => item.name === 'entranceToConversation');
+             if ( entranceItem &&  entranceItem.description && inputValue){
+               entranceItem.description.push(inputValue)
+               console.log( entranceItem)
+             }
+           }
            if (definitedInput.className === 'inputs orientatiuon') {
              let orientationItem = this.generalCharacteristic.find(item => item.name === 'orientation');
              if (orientationItem && orientationItem.description && inputValue){
@@ -501,7 +548,22 @@ buttons(){
            }
            if (definitedInput.className === 'inputs help' && inputValue ) {
              let helpItem = this.generalCharacteristic.find(item => item.name === 'accepting help');
-             helpItem?.description?.push(inputValue)
+             helpItem?.descriptionGeneral?.push(inputValue)
+             console.log( helpItem)
+           }
+           if (definitedInput.className === 'inputs inputs_helping whatneed' && inputValue ) {
+             let helpItem = this.generalCharacteristic.find(item => item.name === 'accepting help');
+             helpItem?.descriptionNatureOfHelp?.push(inputValue)
+             console.log( helpItem?.descriptionNatureOfHelp)
+           }
+           if (definitedInput.className === 'inputs inputs_helping where' && inputValue ) {
+             let helpItem = this.generalCharacteristic.find(item => item.name === 'accepting help');
+             helpItem?.descriptionWhereHelp?.push(inputValue)
+             console.log( helpItem)
+           }
+           if (definitedInput.className === 'inputs inputs_helping effect' && inputValue ) {
+             let helpItem = this.generalCharacteristic.find(item => item.name === 'accepting help');
+             helpItem?.descriptionEffectOfHelp?.push(inputValue)
              console.log( helpItem)
            }
 
@@ -600,12 +662,19 @@ buttons(){
             // Define the appropriate item based on the input's class name
             let item;
             switch (input.className) {
+
               //гнозис
               case 'inputs_gnosis vision':
                 item = this.gnosis.find(item => item.name === 'vision gnosis');
                 break;
               case 'inputs_gnosis vision_symbol':
                 item = this.gnosis.find(item => item.name === 'vision_symbolic gnosis');
+                break;
+              case 'inputs_gnosis vision_space':
+                item = this.gnosis.find(item => item.name === 'vision_space gnosis');
+                break;
+              case 'inputs_gnosis ears':
+                item = this.gnosis.find(item => item.name === 'auditory gnosis');
                 break;
               case 'inputs_gnosis tactilo':
                 item = this.gnosis.find(item => item.name === 'sensor gnosis');
@@ -646,6 +715,9 @@ buttons(){
               case 'inputs_thinking exclude4':
                 item = this.thinking.find(item => item.name === 'solving exclude');
                 break;
+              case 'inputs_thinking stories':
+                item = this.thinking.find(item => item.name === 'understanding');
+                break;
 
                 //
               case 'shultePoint':
@@ -667,7 +739,7 @@ buttons(){
     });
   }
 
-  inputChange789(input: any ){
+ /* inputChange789(input: any ){
     let input_id = input.getAttribute("id")
     console.log(input_id)
 
@@ -717,10 +789,8 @@ buttons(){
     } else {
       input.removeAttribute('checked')
    }
-  }
- // inputChangeMemory(input: any ){
+  }*/
 
-  //}
 
 
 
@@ -771,21 +841,38 @@ buttons(){
       userMedAnam:this.medicalAnamnesis,
       userSocAnam: this.socialAnamnesis
     }
-    localStorage.setItem('generalAnamnesis',JSON.stringify(generalAnamnesis))
+    localStorage.setItem('generalAnamnesis',JSON.stringify(generalAnamnesis));
+
+    let generalZero =  this.generalCharacteristic.filter(item => item.point === 0)
+    localStorage.setItem('zero',JSON.stringify(generalZero));
+
     let generalArrNotBad =  this.generalCharacteristic.filter(item => item.point === 1)
+    localStorage.setItem('notBad',JSON.stringify(generalArrNotBad));
 
-    localStorage.setItem('notBad',JSON.stringify(generalArrNotBad))
     let generalArrBad =  this.generalCharacteristic.filter(item => item.point === 2)
+    localStorage.setItem('bad',JSON.stringify(generalArrBad));
 
-    localStorage.setItem('bad',JSON.stringify(generalArrBad))
     let generalArrWorse = this.generalCharacteristic.filter(item => item.point === 3)
+    localStorage.setItem('worse',JSON.stringify(generalArrWorse));
 
-    localStorage.setItem('worse',JSON.stringify(generalArrWorse))
     if (this.shulteForm.shulte_1_table !== '' && this.shulteForm.shulte_2_table !=='' && this.shulteForm.shulte_3_table !==''){
       localStorage.setItem('shulte',JSON.stringify(this.shulteForm))
     } else {
       localStorage.removeItem('shulte')
     }
+
+    if (this.facesTimeForm.facesTime_1 !== '' && this.facesTimeForm.facesTime_2  !=='' && this.facesTimeForm.facesTime_3  !==''){
+      localStorage.setItem('facesTime',JSON.stringify(this.facesTimeForm))
+    } else {
+      localStorage.removeItem('facesTime')
+    }
+
+    if (this.facesWrongsForm.facesWrongs_1 !== '' && this.facesWrongsForm.facesWrongs_2  !=='' && this.facesWrongsForm.facesWrongs_3  !==''){
+      localStorage.setItem('facesWrongs',JSON.stringify(this.facesWrongsForm))
+    } else {
+      localStorage.removeItem('facesWrongs')
+    }
+
     if (this.memoryForm.memory_count_1 !== null && this.memoryForm.memory_count_2 !== null && this.memoryForm.memory_count_3 !== null
       && this.memoryForm.memory_count_4 !== null && this.memoryForm.memory_count_5 !== null){
       localStorage.setItem('memoryPoints',JSON.stringify(this.memoryForm))
@@ -793,28 +880,48 @@ buttons(){
       localStorage.removeItem('memoryPoints')
     }
 
+    let zeroPointResults = [];
+
+    for (let i = 5; i < this.completedRaport.length ; i++) {
+      if (this.completedRaport[i].results && (this.completedRaport[i].results as PropertyType[])){
+        let arr = (this.completedRaport[i].results as PropertyType[]).filter(item => item.point === 0)
+        if (arr.length > 0 )  {
+          zeroPointResults.push(arr)
+        }
+      }
+    }
+    localStorage.setItem('zeroResults',  JSON.stringify(zeroPointResults));
+
     let notBadResults = [];
 
     for (let i = 5; i < this.completedRaport.length ; i++) {
       if (this.completedRaport[i].results && (this.completedRaport[i].results as PropertyType[])){
         let  arr = (this.completedRaport[i].results as PropertyType[]).filter(item => item.point === 1)
-        notBadResults.push(arr)
+        if (arr.length > 0 ){
+          notBadResults.push(arr)
+        }
       }
     }
-    localStorage.setItem('notBadResults',  JSON.stringify(notBadResults))
+    localStorage.setItem('notBadResults',  JSON.stringify(notBadResults));
+
     let badResults = [];
     for (let i = 5; i < this.completedRaport.length; i++) {
     if (this.completedRaport[i].results && (this.completedRaport[i].results as PropertyType[])) {
         let arr = (this.completedRaport[i].results as PropertyType[]).filter(item => item.point === 2)
-        badResults.push(arr)
+        if (arr.length > 0 ) {
+         badResults.push(arr)
+        }
       }
     }
-    localStorage.setItem('badResults',  JSON.stringify(badResults))
+    localStorage.setItem('badResults',  JSON.stringify(badResults));
+
     let worseResults = [];
     for (let i = 5; i < this.completedRaport.length ; i++) {
       if (this.completedRaport[i].results && (this.completedRaport[i].results as PropertyType[])) {
         let arr = (this.completedRaport[i].results as PropertyType[]).filter(item => item.point === 3)
-        worseResults.push(arr)
+        if (arr.length > 0 ) {
+          worseResults.push(arr)
+        }
       }
     }
     localStorage.setItem('worseResults',JSON.stringify(worseResults ));
@@ -828,3 +935,5 @@ buttons(){
 
 
 }
+
+//

@@ -14,9 +14,12 @@ import {GettingPropertyType} from "../../types/gettingProperty.type";
   styleUrls: ['./raport-page.component.scss']
 })
 export class RaportPageComponent implements OnInit {
+  zeroSymptoms: [] | any = [];
+  notBadSymptoms: [] | any = [];
   badSymptoms: [] | any = [];
   userId: string = '';
-  worseSymptoms: [] = [];
+  worseSymptoms: [] | any = [];
+  objectiveZeroSymptoms: GettingPropertyType  = [];
   objectiveNotBadSymptoms: GettingPropertyType  = [];
 
   objectiveBadSymptoms: GettingPropertyType =  [];
@@ -24,27 +27,28 @@ export class RaportPageComponent implements OnInit {
   complaints: string = '';
   med_anamnesis: string = '';
   soc_anamnesis: string = '';
-  adequancy: string = 'адекватно ситуации';
+  adequancy: string = '';
   adequancyDescription: [] = [];
-  contact: string = 'доступен';
-  conversation: string = 'охотно';
+  contact: string = '';
+  conversation: string = '';
+  entranceDescription = [];
   speechInitiation: string = '';
   distance: string = '';
-  orientation: string = 'Ориентация в мете, времени, собственной личности сохранна';
+  orientation: string = '';
   orientationDescription = [];
-  interest: string = 'Заинтересован в результатах выполнения заданий';
-  reaction: string = 'живые, адекватные ';
-  criticality: string = 'Критика сохранна';
-  expert_motivation: string = 'формируется';
+  interest: string = '';
+  reaction: string = '';
+  criticality: string = '';
+  expert_motivation: string = '';
   emotional_state: string = '';
   emotional_stateDescription = [];
-  instructionUnderstanding: string = 'усваивает чаще с первого раза, самостоятельно удерживает в процессе выполнения заданий';
-  tasks: string = 'выполняет все и в полном объеме';
+  instructionUnderstanding: string = '';
+  tasks: string = '';
   help: string = '';
   helpDescription = [];
   helpAccepting: string = '';
-  workTempo: string = 'нормативный';
-  workDinamic: string = 'стабильная';
+  workTempo: string = '';
+  workDinamic: string = '';
   generalArray = [
     this.adequancy, this.adequancyDescription, this.contact, this.conversation, this.speechInitiation,
   ]
@@ -52,6 +56,7 @@ export class RaportPageComponent implements OnInit {
   birthdayOfUser: string | null = '';
   examinationDate: string | null = '';
   visiual_gnosis: string = '';
+  visiual_space_gnosis:string = '';
   visiual_symbolic_gnosis: string = '';
   sensor_gnosis: string = '';
   copy_gnosis: string = '';
@@ -106,6 +111,9 @@ export class RaportPageComponent implements OnInit {
   logicProgramming: string = '';
   ram_value: string = '';
   minusMobility: string = '';
+  sinus: string = '';
+  sinus2:string = '';
+  minusMobility2: string = '';
   programming2: string = '';
   regulation2: string = '';
   control2: string = '';
@@ -229,21 +237,50 @@ export class RaportPageComponent implements OnInit {
       this.soc_anamnesis = anamnesisInfoParsed.userSocAnam
 
     }
+    //распаковка данных общей части протокола
+    let zeroSymptoms: string | null = localStorage.getItem('zero')
+    if (zeroSymptoms && zeroSymptoms.length >0){
+      this.zeroSymptoms = JSON.parse(zeroSymptoms)
+      console.log(this.zeroSymptoms)
+    }
+
+    let notBadSymptoms: string | null = localStorage.getItem('notBad')
+    if (notBadSymptoms && notBadSymptoms.length >0) {
+      this.notBadSymptoms = JSON.parse(notBadSymptoms)
+      console.log( this.notBadSymptoms)
+    }
+
     let badSymptoms = localStorage.getItem('bad')
     console.log(typeof badSymptoms)
-    if (badSymptoms && this.badSymptoms) {
+    if (badSymptoms && badSymptoms.length >0) {
       this.badSymptoms = JSON.parse(badSymptoms)
     }
+
     let worseSymptoms: string | null = localStorage.getItem('worse')
-    if (worseSymptoms) {
+    if (worseSymptoms && worseSymptoms.length >0) {
       this.worseSymptoms = JSON.parse(worseSymptoms)
+      console.log(this.worseSymptoms)
     }
-    if (this.badSymptoms || this.worseSymptoms) {
+
+    if (this.zeroSymptoms || this.notBadSymptoms || this.badSymptoms || this.worseSymptoms) {
       this.giveValuesForMakingRaport();
     }
+
+    //распаковка данных объективной части протокола
+    let objectiveZeroSymptoms = localStorage.getItem('zeroResults');
+    console.log(objectiveZeroSymptoms);
+    if (objectiveZeroSymptoms && objectiveZeroSymptoms.length >0){
+      this.objectiveZeroSymptoms = JSON.parse(objectiveZeroSymptoms);
+      console.log(this.objectiveZeroSymptoms);
+
+
+    }
+
+
+
     let objective_not_badSymptoms = localStorage.getItem('notBadResults');
     console.log(objective_not_badSymptoms);
-    if (objective_not_badSymptoms) {
+    if (objective_not_badSymptoms && objective_not_badSymptoms.length > 0 && !objective_not_badSymptoms.includes('attentionChild')) {
       this.objectiveNotBadSymptoms = JSON.parse(objective_not_badSymptoms);
       console.log(this.objectiveNotBadSymptoms);
       let descriptionsFromNotBadSymptomsArr = this.objectiveNotBadSymptoms.flat(1).map(item => item.description)
@@ -278,33 +315,33 @@ export class RaportPageComponent implements OnInit {
       }
       let dinamicProblems = descriptionsFromNotBadSymptomsArr_flatted.filter((problem: string) =>  problem.trimEnd() === 'трудности переключения с одного движения на другое' || problem.trimEnd() === 'с отрывом руки от листа'
         || problem.trimEnd() === 'поочередное выполнение' || problem.trimEnd() === 'выполнение с отставанием одной руки' || problem.trimEnd() === 'трудности переключения с одной позы на другую');
-      if (dinamicProblems){
+      if (dinamicProblems.length >= 1){
         this.switchOfMovements = 'трудностями переключения'
         console.log(  this.switchOfMovements)
       }
       let kineticProblemsMinus = descriptionsFromNotBadSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'персеверации' ||  problem.trimEnd() === 'скандированность'
         || problem.trimEnd() === 'трудности воспроизведения акцентированных ритмов');
-      if (kineticProblemsMinus){
+      if (kineticProblemsMinus.length >= 1){
         this.movementsDifficaltiesMinus = 'трудностями переключения'
         console.log(  this.movementsDifficaltiesMinus)
       }
       let kineticProblemsPlus = descriptionsFromNotBadSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'лишние импульсы' || problem.trimEnd() === 'трудности воспроизведения акцентированных ритмов');
-      if ( kineticProblemsPlus){
+      if ( kineticProblemsPlus.length >= 1){
         this.movementsDifficaltiesPlus = 'трудностями переключения'
         console.log(  this.movementsDifficaltiesPlus)
       }
 
       let activateProblemsSlow = descriptionsFromNotBadSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'инактивность' || problem.trimEnd() === 'аспонтанность'  );
-      if (activateProblemsSlow){
+      if (activateProblemsSlow.length >= 1){
         this.mobility = 'инертностью психических процессов'
       }
       let controlProblems = descriptionsFromNotBadSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'эхопраксия' || problem.trimEnd() === 'зеркальность' || problem.trimEnd() === 'импульсивность' || problem.trimEnd() === 'псевдоагнозии' || problem.trimEnd() === ' конфабуляции');
-      if (controlProblems){
+      if (controlProblems.length >= 1){
         this.control = 'трудностями контроля'
         console.log( this.control)
       }
       let activateProblemsMinus = descriptionsFromNotBadSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'истощаемость');
-      if (activateProblemsMinus){
+      if (activateProblemsMinus.length >= 1){
         this.minusMobility = 'истощаемостью'
         console.log( this.control)
       }
@@ -320,6 +357,11 @@ export class RaportPageComponent implements OnInit {
       console.log(descriptionsFromBadSymptomsArr)
      let descriptionsFromBadSymptomsArr_flatted = descriptionsFromBadSymptomsArr.flat(1)
       console.log(descriptionsFromBadSymptomsArr_flatted)
+
+      //функции программирования и контроля, серийная организация движений и действий
+      let dinamicLowProblemsArray_bad = [];
+      let dinamicStuckProblems_bad = [];
+      let programmingActionsProblems_bad = [];
       let ram = descriptionsFromBadSymptomsArr_flatted.filter(item => item.trimEnd() === 'трудности удержания промежуточного результата' || item.trimEnd() === 'контаминации обеих групп'  ||
         item.trimEnd() === 'ошибки в единицах' );
       console.log(ram);
@@ -337,36 +379,45 @@ export class RaportPageComponent implements OnInit {
         item.trimEnd() === 'не может построить фигуру самостоятельно по картинке, необходима организующая помощь');
       console.log( programMentalProblems);
       if ( programMentalProblems.length >= 1){
-        this.mentalProgramming2 = 'на уровне программирования психической деятельности'
-        console.log( this.programming)
+        programmingActionsProblems_bad.push(programMentalProblems.toString())
       }
       let programLogicProblems = descriptionsFromBadSymptomsArr_flatted.filter(item =>  item.trimEnd() === 'трудности переноса' || item.trimEnd() === 'исключает по ситуативному признаку');
       console.log( programLogicProblems);
       if ( programLogicProblems.length >= 1){
-        this.logicProgramming = 'характеризуется недостаточностью в звене программировани психической деятельности'
-        console.log( this.programming)
+        programmingActionsProblems_bad.push(programLogicProblems.toString())
       }
+      if (programmingActionsProblems_bad.length >=1){
+          this.mentalProgramming2 = 'на уровне программирования психической деятельности'
+      }
+
+
+      //  this.logicProgramming = 'характеризуется недостаточностью в звене программировани психической деятельности'
+
       let dinamicProblems = descriptionsFromBadSymptomsArr_flatted.filter((problem: string) =>  problem.trimEnd() === 'трудности переключения с одного движения на другое' || problem.trimEnd() === 'с отрывом руки от листа'
         || problem.trimEnd() === 'поочередное выполнение' || problem.trimEnd() === 'выполнение с отставанием одной руки' || problem.trimEnd() === 'трудности переключения с одной позы на другую');
       if (dinamicProblems.length >= 1){
-        this.switchOfMovements = 'трудностями переключения'
-        console.log(  this.switchOfMovements)
+        dinamicStuckProblems_bad.push(dinamicProblems.toString())
       }
       let kineticProblemsMinus = descriptionsFromBadSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'персеверации' ||  problem.trimEnd() === 'скандированность'
         || problem.trimEnd() === 'трудности воспроизведения акцентированных ритмов');
       if (kineticProblemsMinus.length >= 1){
-        this.movementsDifficaltiesMinus = 'трудностями переключения'
-        console.log(  this.switchOfMovements)
+        dinamicStuckProblems_bad.push(kineticProblemsMinus.toString())
+      //  this.movementsDifficaltiesMinus = 'трудностями переключения'
+     //   console.log(  this.switchOfMovements)
       }
       let kineticProblemsPlus = descriptionsFromBadSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'лишние импульсы' || problem.trimEnd() === 'трудности воспроизведения акцентированных ритмов');
       if ( kineticProblemsPlus.length >= 1){
-        this.movementsDifficaltiesPlus = 'трудностями переключения'
-        console.log(  this.switchOfMovements)
+        dinamicStuckProblems_bad.push(kineticProblemsPlus.toString())
+       // this.movementsDifficaltiesPlus = 'трудностями переключения'
+      //  console.log(  this.switchOfMovements)
+      }
+      if (dinamicStuckProblems_bad.length >= 1){
+        this.switchOfMovements = 'трудностями переключения'
       }
 
       let activateProblemsSlow = descriptionsFromBadSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'инактивность' || problem.trimEnd() === 'аспонтанность'  );
       if (activateProblemsSlow.length >= 1){
-        this.mobility2 = 'выраженной инертностью психических процессов'
+        this.mobility = 'выраженной инертностью психических процессов'
       }
       let controlProblems = descriptionsFromBadSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'эхопраксия' || problem.trimEnd() === 'зеркальность' || problem.trimEnd() === 'импульсивность'
         || problem.trimEnd() === 'псевдоагнозии' || problem.trimEnd() === ' конфабуляции');
@@ -374,14 +425,22 @@ export class RaportPageComponent implements OnInit {
         this.control2 = 'трудностями контроля'
         console.log( this.control2)
       }
+      //нейродинамика
+
       let activateProblemsMinus = descriptionsFromBadSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'истощаемость');
       if (activateProblemsMinus.length >= 1){
-        this.minusMobility = 'истощаемостью'
-        console.log( this.minusMobility)
+        dinamicLowProblemsArray_bad.push(activateProblemsMinus.toString())
+        this.minusMobility2 = 'истощаемостью'
+        //console.log( this.minusMobility)
       }
-
-
+      let sinusProblems = descriptionsFromBadSymptomsArr_flatted.filter((problem:string) => problem.trimEnd() === 'флуктуации' )
+      if (sinusProblems.length >=1){
+        dinamicLowProblemsArray_bad.push(sinusProblems.toString())
+        this.sinus2 = 'флуктуациями'
+      }
     }
+
+
     let objective_worseSymptoms = localStorage.getItem('worseResults')
     if (objective_worseSymptoms && objective_worseSymptoms.length > 0 ) {
       this.objectiveWorseSymptoms = JSON.parse(objective_worseSymptoms);
@@ -427,25 +486,190 @@ export class RaportPageComponent implements OnInit {
   }
 
   giveValuesForMakingRaport() {
-    if (this.badSymptoms) {
+    //обработка 0 баллов общий блок
+    if (this.zeroSymptoms && this.zeroSymptoms.length > 0 ){
+      this.zeroSymptoms.find((a: PropertyType) => {
+        a.hasOwnProperty('contact')
+        return this.contact = 'доступен';
+      });
+      let entranceItem = this.zeroSymptoms.find((a: PropertyType) => a.name === 'entranceToConversation')
+      console.log(entranceItem)
+      if (entranceItem) {
+        this.entranceDescription = entranceItem.description.toString().toLowerCase()? entranceItem.description.toString().toLowerCase() : 'охотно';
+        console.log(this.entranceDescription);
+      }
+      //this.badSymptoms.find((a: PropertyType) => {
+      //   a.hasOwnProperty('entranceToConversation')
+      //  return this.speechInitiation = 'снижена';
+      // });
+      this.zeroSymptoms.find((a: PropertyType) => {
+        a.hasOwnProperty('orientation')
+        return this.orientation = 'Ориентация в месте, времени, собственной личности сохранна';
+      });
+      this.zeroSymptoms.find((a: PropertyType) => {
+        a.hasOwnProperty('criticality')
+        return this.criticality = 'Критичность сохранна';
+      });
+      this.zeroSymptoms.find((a: PropertyType) => {
+        a.hasOwnProperty('adequancy')
+        return this.adequancy = 'адекватно ситуации';
+      });
+      //подумать гла взять данные для нарушения дистанции
+      this.zeroSymptoms.find((a: PropertyType) => {
+        a.hasOwnProperty('exportMotivation')
+        return this.expert_motivation = 'формируется';
+      });
+      this.zeroSymptoms.find((a: PropertyType) => {
+        a.hasOwnProperty('interest')
+        return this.interest = 'Ребенок заинтересован в результатах выполнения заданий';
+      });
+
+      let emotionalStateItem = this.zeroSymptoms.find((a: PropertyType) => a.name === 'emotionalState')
+      if (emotionalStateItem && emotionalStateItem.description && emotionalStateItem.description.length > 0) {
+        /*  let reactionsRemovw = ['Реакции на успех/неуспех чрезмерные']
+          let reactions = emotionalStateItem.description.toString()
+            .split(/,+/)
+            .filter((word:string) => reactionsRemovw.includes(word))
+          this.reaction = reactions;*/
+        this.emotional_stateDescription = emotionalStateItem.description.toString().toLowerCase();
+      }
+      this.zeroSymptoms.find((a: PropertyType) => {
+        a.hasOwnProperty('following instructions')
+        return this.instructionUnderstanding = 'усваивает чаще с первого раза, самостоятельно удерживает в процессе выполнения заданий';
+      });
+      this.zeroSymptoms.find((a: PropertyType) => {
+        a.hasOwnProperty('doing tasks')
+        return this.tasks = 'выполняет все и в полном объеме';
+      });
+
+      let workProperties = this.zeroSymptoms.find((a: PropertyType) => a.name === 'perfomance');
+      if (workProperties &&  workProperties.descriptionTempo && workProperties.descriptionTempo.length >0 && workProperties.descriptionDinamic && workProperties.descriptionDinamic.length >0) {
+        this.workTempo = workProperties.descriptionTempo.toString();
+        this.workDinamic = workProperties.descriptionDinamic.toString();
+      } else {
+        this.workTempo ='нормативный';
+        this.workDinamic = 'стабильная';
+      }
+     // let workDinamic = this.zeroSymptoms.find((a: PropertyType) => a.name === 'perfomance');
+
+
+    }
+
+  //обработка 1 балл общий блок
+    if (this.notBadSymptoms && this.notBadSymptoms.length > 0){
+      this.notBadSymptoms.find((a: PropertyType) => {
+        a.hasOwnProperty('contact')
+        return this.contact = 'доступен, требуется некоторое время';
+      });
+      let entranceItem = this.notBadSymptoms.find((a: PropertyType) => a.name === 'entranceToConversation')
+      console.log(entranceItem)
+      if (entranceItem) {
+        this.entranceDescription = entranceItem.description.toString().toLowerCase();
+        console.log(this.entranceDescription);
+      }
+      //this.badSymptoms.find((a: PropertyType) => {
+      //   a.hasOwnProperty('entranceToConversation')
+      //  return this.speechInitiation = 'снижена';
+      // });
+      this.notBadSymptoms.find((a: PropertyType) => {
+        a.hasOwnProperty('orientation')
+        return this.orientation = 'Общая осведомленность соответствует возрасту';
+      });
+      let orientationItem = this.notBadSymptoms.find((a: PropertyType) => a.name === 'orientation')
+      if (orientationItem && orientationItem.description && orientationItem.description.length >0) {
+        this.orientationDescription = orientationItem.description.toString().toLowerCase();
+      }
+
+      this.notBadSymptoms.find((a: PropertyType) => {
+        a.hasOwnProperty('criticality')
+        return this.criticality = 'Критичность сохранна,необходима незначительная регулирующая помощь';
+      });
+      this.notBadSymptoms.find((a: PropertyType) => {
+        a.hasOwnProperty('adequancy')
+        return this.adequancy = 'в целом адекватно';
+      });
+      //подумать гла взять данные для нарушения дистанции
+      let adequancyItem = this.notBadSymptoms.find((item: PropertyType) => item.name === 'adequancy')
+      console.log(adequancyItem)
+      if (adequancyItem && adequancyItem.description && adequancyItem.description.length > 0) {
+        this.adequancyDescription = adequancyItem.description.toString().toLowerCase();
+      }
+      console.log(this.adequancyDescription)
+      this.notBadSymptoms.find((a: PropertyType) => {
+        a.hasOwnProperty('exportMotivation')
+        return this.expert_motivation = 'формируется';
+      });
+      this.notBadSymptoms.find((a: PropertyType) => {
+        a.hasOwnProperty('interest')
+        return this.interest = 'Ребенок заинтересован в результатах выполнения заданий';
+      });
+
+      let emotionalStateItem = this.notBadSymptoms.find((a: PropertyType) => a.name === 'emotionalState')
+      if (emotionalStateItem && emotionalStateItem.description && emotionalStateItem.description.length > 0) {
+        /*  let reactionsRemovw = ['Реакции на успех/неуспех чрезмерные']
+          let reactions = emotionalStateItem.description.toString()
+            .split(/,+/)
+            .filter((word:string) => reactionsRemovw.includes(word))
+          this.reaction = reactions;*/
+        this.emotional_stateDescription = emotionalStateItem.description.toString().toLowerCase();
+      }
+      this.notBadSymptoms.find((a: PropertyType) => {
+        a.hasOwnProperty('following instructions')
+        return this.instructionUnderstanding = 'усваивает со 2-го-3-го раза';
+      });
+      this.notBadSymptoms.find((a: PropertyType) => {
+        a.hasOwnProperty('doing tasks')
+        return this.tasks = 'выполняет все и  в полном объеме,с самокоррекцией';
+      });
+      let helpItem = this.notBadSymptoms.find((a: PropertyType) => a.name === 'accepting help')
+      if (helpItem && helpItem.descriptionGeneral && helpItem.descriptionGeneral.length > 0) {
+        this.helpDescription = helpItem.descriptionGeneral.toString();
+      }
+      if (helpItem && helpItem.descriptionNatureOfHelp && helpItem.descriptionNatureOfHelp.length > 0) {
+        this.helpDescription = helpItem.descriptionNatureOfHelp.toString();
+      }
+      if (helpItem && helpItem.descriptionWhereHelp && helpItem.descriptionWhereHelp.length > 0) {
+        this.helpDescription = helpItem.descriptionWhereHelp.toString();
+      }
+      if (helpItem && helpItem.descriptionEffectOfHelp && helpItem.descriptionEffectOfHelp.length > 0) {
+        this.helpDescription = helpItem.descriptionEffectOfHelp.toString();
+      }
+
+      let workProperties = this.notBadSymptoms.find((a: PropertyType) => a.name === 'perfomance');
+      if (workProperties && workProperties.descriptionTempo) {
+        this.workTempo = workProperties.descriptionTempo.length >0? workProperties.descriptionTempo.toString() : '';
+      }
+      if (workProperties && workProperties.descriptionDinamic){
+        this.workDinamic = workProperties.descriptionDinamic.length >0? workProperties.descriptionDinamic.toString() : '';
+      }
+    }
+
+    //обработка 2 балла общий блок
+    if (this.badSymptoms && this.badSymptoms.length > 0) {
       this.badSymptoms.find((a: PropertyType) => {
         a.hasOwnProperty('contact')
         return this.contact = 'доступен частично. Контакт неустойчивый';
       });
-      this.badSymptoms.find((a: PropertyType) => {
+    /*  this.badSymptoms.find((a: PropertyType) => {
         a.hasOwnProperty('entranceToConversation')
         return this.conversation = 'неохотно';
-      });
-      this.badSymptoms.find((a: PropertyType) => {
-        a.hasOwnProperty('entranceToConversation')
-        return this.speechInitiation = 'снижена';
-      });
+      });*/
+      let entranceItem = this.badSymptoms.find((a: PropertyType) => a.name === 'entranceToConversation')
+      console.log(entranceItem)
+      if (entranceItem && entranceItem.description && entranceItem.description.length >0) {
+        this.entranceDescription = entranceItem.description.toString().toLowerCase();
+        console.log(this.entranceDescription);
+      }
+      //this.badSymptoms.find((a: PropertyType) => {
+     //   a.hasOwnProperty('entranceToConversation')
+      //  return this.speechInitiation = 'снижена';
+     // });
       this.badSymptoms.find((a: PropertyType) => {
         a.hasOwnProperty('orientation')
         return this.orientation = 'Общая осведомленность снижена';
       });
       let orientationItem = this.badSymptoms.find((a: PropertyType) => a.name === 'orientation')
-      if (orientationItem) {
+      if (orientationItem && orientationItem.description && orientationItem.description.length >0) {
         this.orientationDescription = orientationItem.description.toString().toLowerCase();
       }
 
@@ -454,16 +678,16 @@ export class RaportPageComponent implements OnInit {
         a.hasOwnProperty('criticality')
         return this.criticality = 'Критичность снижена';
       });
-      let badAdequancy = this.badSymptoms.find((a: PropertyType) => {
+       this.badSymptoms.find((a: PropertyType) => {
         a.hasOwnProperty('adequancy')
         return this.adequancy = 'неадекватно';
       });
-      console.log(badAdequancy) //подумать гла взять данные для нарушения дистанции
+      //подумать гла взять данные для нарушения дистанции
       let adequancyItem = this.badSymptoms.find((item: PropertyType) => item.name === 'adequancy')
-      if (adequancyItem) {
+      console.log(adequancyItem)
+      if (adequancyItem && adequancyItem.description && adequancyItem.description.length >0) {
         this.adequancyDescription = adequancyItem.description.toString().toLowerCase();
       }
-
       console.log(this.adequancyDescription)
       this.badSymptoms.find((a: PropertyType) => {
         a.hasOwnProperty('exportMotivation')
@@ -473,6 +697,19 @@ export class RaportPageComponent implements OnInit {
         a.hasOwnProperty('interest')
         return this.interest = 'Заинтересованность в результатах выполнения заданий снижена';
       });
+     /* this.badSymptoms.find((a: PropertyType) => {
+        a.hasOwnProperty('emotionalState')
+        return this.emotionalState = 'Общая осведомленность снижена';
+      });*/
+      let emotionalStateItem = this.badSymptoms.find((a: PropertyType) => a.name === 'emotionalState')
+      if (emotionalStateItem && emotionalStateItem.description && emotionalStateItem.description.length >0) {
+      /*  let reactionsRemovw = ['Реакции на успех/неуспех чрезмерные']
+        let reactions = emotionalStateItem.description.toString()
+          .split(/,+/)
+          .filter((word:string) => reactionsRemovw.includes(word))
+        this.reaction = reactions;*/
+        this.emotional_stateDescription = emotionalStateItem.description.toString().toLowerCase();
+      }
       this.badSymptoms.find((a: PropertyType) => {
         a.hasOwnProperty('following instructions')
         return this.instructionUnderstanding = 'усваивает со 2-го-3-го раза с развернутым разъяснением';
@@ -481,40 +718,75 @@ export class RaportPageComponent implements OnInit {
         a.hasOwnProperty('doing tasks')
         return this.tasks = 'выполняет не все и не в полном объеме';
       });
+
       let helpItem = this.badSymptoms.find((a: PropertyType) => a.name === 'accepting help')
-      if (helpItem) {
-        this.helpDescription = helpItem.description.toString();
+      if (helpItem && helpItem.descriptionGeneral && helpItem.descriptionGeneral.length > 0) {
+        this.helpDescription = helpItem.descriptionGeneral.toString();
+      }
+      if (helpItem && helpItem.descriptionNatureOfHelp && helpItem.descriptionNatureOfHelp.length > 0) {
+        this.helpDescription = helpItem.descriptionNatureOfHelp.toString();
+      }
+      if (helpItem && helpItem.descriptionWhereHelp && helpItem.descriptionWhereHelp.length > 0) {
+        this.helpDescription = helpItem.descriptionWhereHelp.toString();
+      }
+      if (helpItem && helpItem.descriptionEffectOfHelp && helpItem.descriptionEffectOfHelp.length > 0) {
+        this.helpDescription = helpItem.descriptionEffectOfHelp.toString();
       }
 
-      let workTempo = this.badSymptoms.find((a: PropertyType) => a.name === 'perfomance');
-      if (workTempo && workTempo.descriptionTempo) {
-        this.workTempo = workTempo.descriptionTempo.toString();
+
+      let workProperties = this.badSymptoms.find((a: PropertyType) => a.name === 'perfomance');
+      if (workProperties && workProperties.descriptionTempo) {
+        this.workTempo = workProperties.descriptionTempo.length >0? workProperties.descriptionTempo.toString() : '';
       }
-      let workDinamic = this.badSymptoms.find((a: PropertyType) => a.name === 'perfomance');
-      if (workDinamic && workDinamic.descriptionDinamic)
-        this.workDinamic = workDinamic.descriptionDinamic.toString();
-    }
-    // }
-    if (this.worseSymptoms) {
-      this.worseSymptoms.find((a: {}) => {
+      if (workProperties && workProperties.descriptionDinamic ){
+        this.workDinamic = workProperties.descriptionDinamic.length >0? workProperties.descriptionDinamic.toString() : '';
+      }
+     }
+//обработка 3 балла общий блок
+    if (this.worseSymptoms && this.worseSymptoms.length >0) {
+    /*  this.worseSymptoms.find((a: {}) => {
         a.hasOwnProperty('orientation')
         return this.orientation = 'Дезориентирован';
+      });*/
+      let orientationItem = this.worseSymptoms.find((a: PropertyType) => a.name === 'orientation')
+        console.log(orientationItem)
+        console.log(orientationItem?.description)
+      if (orientationItem && orientationItem.description && orientationItem.description.length >0) {
+        this.orientation = 'Дезориентирован';
+        this.orientationDescription = orientationItem.description.toString().toLowerCase();
+      }
+      this.worseSymptoms.find((a: PropertyType) => {
+        a.hasOwnProperty('contact')
+        return this.contact = 'недоступен';
       });
+      let entranceItem = this.worseSymptoms.find((a: PropertyType) => a.name === 'entranceToConversation')
+      console.log(entranceItem)
+
+      if (entranceItem && entranceItem.description && entranceItem.description.length >0) {
+        this.entranceDescription = entranceItem.description.toString().toLowerCase();
+        console.log(this.entranceDescription);
+      }
       this.worseSymptoms.find((a: {}) => {
         a.hasOwnProperty('criticality')
-        return this.criticality = 'Критичность резко снижена';
+        return this.criticality = 'Безразличен к своему состоянию, поведению и оценкам взрослого';
       });
       this.worseSymptoms.find((a: {}) => {
         a.hasOwnProperty('adequancy')
         return this.adequancy = 'неадекватно';
       });
+      let worseAdequancy = this.worseSymptoms.find((a:PropertyType) => a.name === 'adequancy');
+    console.log(worseAdequancy)
+     /* if (worseAdequancy && worseAdequancy.description){
+        this.adequancyDescription = worseAdequancy.description.length >0? worseAdequancy.description.toString().toLowerCase() : '';
+      }*/
+
       this.worseSymptoms.find((a: {}) => {
         a.hasOwnProperty('exportMotivation')
         return this.expert_motivation = 'не формируется';
       });
       this.worseSymptoms.find((a: {}) => {
         a.hasOwnProperty('following instructions')
-        return this.instructionUnderstanding = ' не усваивает ';
+        return this.instructionUnderstanding = ' не усваивает даже с массированной помощью ';
       });
       this.worseSymptoms.find((a: {}) => {
         a.hasOwnProperty('doing tasks')
@@ -524,8 +796,228 @@ export class RaportPageComponent implements OnInit {
         a.hasOwnProperty('accepting help')
         return this.helpAccepting = 'не принимает';
       });
+
+      let workProperties = this.worseSymptoms.find((a: PropertyType) => a.name === 'perfomance');
+      console.log(workProperties)
+    //}
+   /*   if (workProperties && workProperties.descriptionTempo) {
+        this.workTempo = workProperties.descriptionTempo.length >0? workProperties.descriptionTempo.toString() : '';
+      }
+      if (workProperties && workProperties.descriptionDinamic ){
+        this.workDinamic = workProperties.descriptionDinamic.length >0? workProperties.descriptionDinamic.toString() : '';
+      }*/
+  }
+
+    if ( this.objectiveNotBadSymptoms && this.objectiveNotBadSymptoms.length >0){
+      let namesArray3: any = this.objectiveNotBadSymptoms.flat(1).map(item => item.name);
+
+      console.log(namesArray3);
+      namesArray3.forEach((name:string) => {
+        const item: any = this.objectiveNotBadSymptoms.flat(1).find(item => item.name === name);
+        if (item) {
+          switch (name) {
+            case 'dinamicPracsis':
+              //   let dinamic_pracsis = item.description.toString();
+              //    let remove = 'персеверации';
+              //  this.dinamic_pracsis = dinamic_pracsis.split(remove)
+              this.dinamic_pracsis = item.description.toString();
+              break;
+            case 'reciproknaya':
+              this.reciprok = item.description.toString();
+              break;
+            case  'positionsPracsis':
+              this.position_pracsis = item.description.toString();
+              break;
+            case 'grafics':
+              this.grafics_pracsis = item.description.toString();
+              break;
+            case 'hed':
+              this.heads_test = item.description.toString();
+              break;
+            case 'ears_motors':
+              this.listen_motor_test = item.description.toString();
+              break;
+            case 'eyes':
+              this.eyes_test = item.description.toString();
+              break;
+            case 'constructor':
+              this.constract_pracsis = item.description.toString();
+              break;
+            case 'choise_reaction':
+              this.choice_reaction = item.description.toString();
+              break;
+            case 'vision gnosis':
+              this.visiual_gnosis = item.description.toString();
+              break;
+            case 'vision_space gnosis':
+              this.visiual_space_gnosis = item.description.toString();
+              break;
+            case 'vision_symbolic gnosis':
+              this.visiual_symbolic_gnosis = item.description.toString();
+              break;
+            case 'auditory gnosis':
+              this.auditional_gnosis = item.description.toString();
+              break;
+            case 'sensor gnosis':
+              this.sensor_gnosis = item.description.toString();
+              break;
+            case 'emotional gnosis':
+              this.emotional_gnosis = item.description.toString();
+              break;
+            case 'copy gnosis':
+              this.copy_gnosis = item.description.toString();
+              break;
+            case 'vision_space_memory':
+              this.visial_space_memory = item.description.toString();
+              break;
+            case 'vision_memory':
+              this.visiual_memory = item.description.toString();
+              break;
+            case 'audit_memory':
+              this.audit_memory = item.description.toString();
+              break;
+            case 'audit_memory_2_3':
+              this.audit_memory_2_3 = item.description.toString();
+              break;
+            case 'serial counting':
+              let calculating = item.description.toString();
+              let removefromcalculating = ["флуктуации", "аспонтанность","импульсивность", "персеверации"];
+              let removePsyMoveFromcalculating = ['персеверации'];
+              let removeControlFromcalculating = ['импульсивность'];
+              let removeDinamicFromcalculating = ['флуктуации'];
+              this.calculating = calculating
+                .split(/,+/)
+                .filter((word:string) => !removefromcalculating.includes(word))
+                .join(' ');
+              let control_in_calculating = calculating.split(/,+/).filter((word:string) => removeControlFromcalculating.includes(word)).join(' ');
+              if (control_in_calculating){
+                this.control = 'трудностями контроля';
+              }
+              let psymove_in_calculating = calculating.split(/,+/).filter((word:string) => removePsyMoveFromcalculating.includes(word)).join(' ');
+              if (psymove_in_calculating){
+                this.mobility = 'инертностью психических процессов';
+              }
+              let dinamic_in_calculating = calculating.split(/,+/).filter((word:string) => removeDinamicFromcalculating.includes(word)).join(' ');
+              if (dinamic_in_calculating){
+                this.sinus = 'флуктуациями';
+              }
+              break;
+            case 'solving tasks':
+              let solving_tasks = item.description.toString();
+              let removefromsolving_tasks = ["флуктуации", "аспонтанность","импульсивность", "персеверации"];
+              let removePsyMoveFromsolving_tasks = ['персеверации'];
+              let removeControlFromsolving_tasks = ['импульсивность'];
+              let removeDinamicFromsolving_tasks = ['флуктуации'];
+              this.solving_tasks = solving_tasks
+                .split(/,+/)
+                .filter((word:string) => !removefromsolving_tasks.includes(word))
+                .join(' ');
+              let control_in_solving_tasks = solving_tasks.split(/,+/).filter((word:string) => removeControlFromsolving_tasks.includes(word)).join(' ');
+              if (control_in_solving_tasks){
+                this.control = 'трудностями контроля';
+              }
+              let psymove_in_solving_tasks = solving_tasks.split(/,+/).filter((word:string) => removePsyMoveFromsolving_tasks.includes(word)).join(' ');
+              if (psymove_in_solving_tasks){
+                this.mobility = 'инертностью психических процессов';
+              }
+              let dinamic_in_solving_tasks = solving_tasks.split(/,+/).filter((word:string) => removeDinamicFromsolving_tasks.includes(word)).join(' ');
+              if (dinamic_in_solving_tasks){
+                this.sinus = 'флуктуациями';
+              }
+              break;
+            case 'solving problems':
+              let solving_problems = item.description.toString();
+              let remove_problems = ["флуктуации", "аспонтанность","импульсивность", "персеверации"];
+              let removePsyMove = ['персеверации'];
+              let removeControl = ['импульсивность'];
+              let removeDinamic = ['флуктуации'];
+              this.solving_problems = solving_problems
+                .split(/,+/)
+                .filter((word:string) => !remove_problems.includes(word))
+                .join(' ');
+              let control_in_solving_problems = solving_problems.split(/,+/).filter((word:string) => removeControl.includes(word)).join(' ');
+              if (control_in_solving_problems){
+                this.control = 'трудностями контроля';
+              }
+              let psymove_in_solving_problems = solving_problems.split(/,+/).filter((word:string) => removePsyMove.includes(word)).join(' ');
+              if (psymove_in_solving_problems){
+                this.mobility = 'инертностью психических процессов';
+              }
+              let dinamic_in_solving_problems = solving_problems.split(/,+/).filter((word:string) => removeDinamic.includes(word)).join(' ');
+              if (dinamic_in_solving_problems){
+                this.sinus = 'флуктуациями';
+              }
+              break;
+            case 'solving analog':
+              let analog = item.description.toString();
+              let removefromAnalog = ["флуктуации", "аспонтанность","импульсивность", "персеверации"];
+              let removePsyMoveFromAnalog = ['персеверации'];
+              let removeControlFromAnalog = ['импульсивность'];
+              let removeDinamicFromAnalog = ['флуктуации'];
+              this.analog =  analog
+                .split(/,+/)
+                .filter((word:string) => !removefromAnalog.includes(word))
+                .join(' ');
+              let control_in_analog = analog.split(/,+/).filter((word:string) => removeControlFromAnalog.includes(word)).join(' ');
+              if (control_in_analog){
+                this.control = 'трудностями контроля';
+              }
+              let psymove_in_analog = analog.split(/,+/).filter((word:string) => removePsyMoveFromAnalog.includes(word)).join(' ');
+              if (psymove_in_analog){
+                this.mobility = 'инертностью психических процессов';
+              }
+              let dinamic_in_analog = analog.split(/,+/).filter((word:string) => removeDinamicFromAnalog.includes(word)).join(' ');
+              if (dinamic_in_analog){
+                this.sinus = 'флуктуациями';
+              }
+              break;
+            case 'solving exclude':
+              let exclude_4 = item.description.toString();
+              let remove2 = ["флуктуации","аспонтанность", "импульсивность", "персеверации"];
+              let rmcontrolfromex = ["импульсивность"];
+              let rmMoveFromEx = ["персеверации"];
+              let rmDinamicFromEx = ["флуктуации"];
+              this.exclude_4 = exclude_4
+                .split(/,+/)
+                .filter((word:string) => !remove2.includes(word))
+                .join(' ');
+              let controlProblems = exclude_4.split(/,+/).filter((word:string) => rmcontrolfromex.includes(word)).join(' ');
+              if (controlProblems){
+                this.control = 'трудностями контроля';
+              }
+              let move_in_exclude_4 = exclude_4.split(/,+/).filter((word:string) => rmMoveFromEx.includes(word)).join(' ');
+              if (move_in_exclude_4){
+                this.mobility = 'инертностью психических процессов';
+              }
+              let dinamic_in_exclude_4 = exclude_4.split(/,+/).filter((word:string) => rmDinamicFromEx.includes(word)).join(' ');
+              if (dinamic_in_exclude_4){
+                this.sinus = 'флуктуациями';
+              }
+
+              break;
+            case  'understanding':
+              this.text_meaning = 'доступно с незначительной организующей помощью'
+              break;
+            case  'understanding serial pictures':
+              this.causal_link = 'Причинно-следственные связи устанавливает с незначительной организующей помощью';
+              break;
+            case 'understanding pictures':
+              this.pictures_understanding = 'доступно с незначительной организующей помощью';
+              break;
+            case  'understanding proverbs':
+              this.proverbs = 'доступно с незначительной организующей помощью';
+              break;
+            case  'attention':
+              this.attention = item.description.toString();
+              break;
+            default:
+              break;
+          }
+        }
+      });
+
     }
-    if ( this.objectiveBadSymptoms){
+    if ( this.objectiveBadSymptoms && this.objectiveBadSymptoms.length >0){
       console.log(this.objectiveBadSymptoms)
       let namesArray: any = this.objectiveBadSymptoms.flat(1).map(item => item.name);
 
@@ -533,11 +1025,30 @@ export class RaportPageComponent implements OnInit {
       namesArray.forEach((name:string) => {
           const item: any = this.objectiveBadSymptoms.flat(1).find(item => item.name === name);
           if (item && item.description) {
+
             switch (name) {
               case 'dinamicPracsis' :
-                let dinamic_pracsis = item.description.toString();
-                let remove = 'персеверации';
-                this.dinamic_pracsis = dinamic_pracsis.split(remove)
+                this.dinamic_pracsis = item.description.toString();
+           /*    let sideLowSymptoms = this.dinamic_pracsis.split(',').filter(item => item.includes('неполное сжатие'));
+               if (sideLowSymptoms.length > 0){
+                 dinamicLowProblemsArray_bad.push(sideLowSymptoms.toString())
+                 console.log(dinamicLowProblemsArray_bad)
+               }
+               let sideStuckSymptomsToInclude = ['скандированность', 'персеверации', 'трудности переключения с одного движения на другое']
+                let sideStuckSymptoms = this.dinamic_pracsis.split(',').filter(item => item.includes(sideStuckSymptomsToInclude.toString()));
+                if (sideStuckSymptoms.length >0){
+                  dinamicStuckProblems_bad.push(sideStuckSymptoms.toString())
+                  console.log(dinamicStuckProblems_bad)
+                }
+                let sideProgramSymptomsToInclude = ['расширение программы','упрощение программы']
+                let program = this.dinamic_pracsis.split(',').filter(item => item.includes(sideProgramSymptomsToInclude.toString()));
+                if (program.length >0){
+                  programmingActionsProblems_bad.push(program);
+                  console.log(programmingActionsProblems_bad)
+                }
+             //   let dinamic_pracsis = item.description.toString();
+              //  let remove = 'персеверации';
+             //   this.dinamic_pracsis = dinamic_pracsis.split(remove)*/
                 break;
               case 'reciproknaya':
                 this.reciprok = item.description.toString();
@@ -565,6 +1076,9 @@ export class RaportPageComponent implements OnInit {
                 break;
               case 'vision gnosis':
                 this.visiual_gnosis = item.description.toString();
+                break;
+              case 'vision_space gnosis':
+                this.visiual_space_gnosis = item.description.toString();
                 break;
               case 'vision_symbolic gnosis':
                 this.visiual_symbolic_gnosis = item.description.toString();
@@ -630,7 +1144,7 @@ export class RaportPageComponent implements OnInit {
         });
 
     }
-    if (this.objectiveWorseSymptoms){
+    if (this.objectiveWorseSymptoms && this.objectiveWorseSymptoms.length >0){
       let namesArray2: any = this.objectiveWorseSymptoms.flat(1).map(item => item.name);
       namesArray2.forEach((name:string) => {
         const item: any = this.objectiveWorseSymptoms.flat(1).find(item => item.name === name);
@@ -665,6 +1179,9 @@ export class RaportPageComponent implements OnInit {
               break;
             case 'vision gnosis':
               this.visiual_gnosis = item.description.toString();
+              break;
+            case 'vision_space gnosis':
+              this.visiual_space_gnosis = item.description.toString();
               break;
             case 'vision_symbolic gnosis':
               this.visiual_symbolic_gnosis = item.description.toString();
@@ -729,211 +1246,7 @@ export class RaportPageComponent implements OnInit {
         }
       });
     }
-  if ( this.objectiveNotBadSymptoms){
-    let namesArray3: any = this.objectiveNotBadSymptoms.flat(1).map(item => item.name);
 
-    console.log(namesArray3);
-    namesArray3.forEach((name:string) => {
-      const item: any = this.objectiveNotBadSymptoms.flat(1).find(item => item.name === name);
-      if (item) {
-        switch (name) {
-          case 'dinamicPracsis':
-            let dinamic_pracsis = item.description.toString();
-            let remove = 'персеверации';
-            this.dinamic_pracsis = dinamic_pracsis.split(remove)
-            break;
-          case 'reciproknaya':
-            this.reciprok = item.description.toString();
-            break;
-          case  'positionsPracsis':
-            this.position_pracsis = item.description.toString();
-            break;
-          case 'grafics':
-            this.grafics_pracsis = item.description.toString();
-            break;
-          case 'hed':
-            this.heads_test = item.description.toString();
-            break;
-          case 'ears_motors':
-            this.listen_motor_test = item.description.toString();
-            break;
-          case 'eyes':
-            this.eyes_test = item.description.toString();
-            break;
-          case 'constructor':
-            this.constract_pracsis = item.description.toString();
-            break;
-          case 'choise_reaction':
-            this.choice_reaction = item.description.toString();
-            break;
-          case 'vision gnosis':
-            this.visiual_gnosis = item.description.toString();
-            break;
-          case 'vision_symbolic gnosis':
-            this.visiual_symbolic_gnosis = item.description.toString();
-            break;
-          case 'auditory gnosis':
-            this.auditional_gnosis = item.description.toString();
-            break;
-          case 'sensor gnosis':
-            this.sensor_gnosis = item.description.toString();
-            break;
-          case 'emotional gnosis':
-            this.emotional_gnosis = item.description.toString();
-            break;
-          case 'copy gnosis':
-            this.copy_gnosis = item.description.toString();
-            break;
-          case 'vision_space_memory':
-            this.visial_space_memory = item.description.toString();
-            break;
-          case 'vision_memory':
-            this.visiual_memory = item.description.toString();
-            break;
-          case 'audit_memory':
-            this.audit_memory = item.description.toString();
-            break;
-          case 'audit_memory_2_3':
-            this.audit_memory_2_3 = item.description.toString();
-            break;
-          case 'serial counting':
-            let calculating = item.description.toString();
-            let removefromcalculating = ["флуктуации", "аспонтанность","импульсивность", "персеверации"];
-            let removePsyMoveFromcalculating = ['персеверации'];
-            let removeControlFromcalculating = ['импульсивность'];
-            let removeDinamicFromcalculating = ['флуктуации'];
-            this.calculating = calculating
-              .split(/,+/)
-              .filter((word:string) => !removefromcalculating.includes(word))
-              .join(' ');
-            let control_in_calculating = calculating.split(/,+/).filter((word:string) => removeControlFromcalculating.includes(word)).join(' ');
-            if (control_in_calculating){
-              this.control = 'трудностями контроля';
-            }
-            let psymove_in_calculating = calculating.split(/,+/).filter((word:string) => removePsyMoveFromcalculating.includes(word)).join(' ');
-            if (psymove_in_calculating){
-              this.mobility = 'инертностью психических процессов';
-            }
-            let dinamic_in_calculating = calculating.split(/,+/).filter((word:string) => removeDinamicFromcalculating.includes(word)).join(' ');
-            if (dinamic_in_calculating){
-              this.attention = 'флуктуациями';
-            }
-            break;
-          case 'solving tasks':
-            let solving_tasks = item.description.toString();
-            let removefromsolving_tasks = ["флуктуации", "аспонтанность","импульсивность", "персеверации"];
-            let removePsyMoveFromsolving_tasks = ['персеверации'];
-            let removeControlFromsolving_tasks = ['импульсивность'];
-            let removeDinamicFromsolving_tasks = ['флуктуации'];
-            this.solving_tasks = solving_tasks
-              .split(/,+/)
-              .filter((word:string) => !removefromsolving_tasks.includes(word))
-              .join(' ');
-            let control_in_solving_tasks = solving_tasks.split(/,+/).filter((word:string) => removeControlFromsolving_tasks.includes(word)).join(' ');
-            if (control_in_solving_tasks){
-              this.control = 'трудностями контроля';
-            }
-            let psymove_in_solving_tasks = solving_tasks.split(/,+/).filter((word:string) => removePsyMoveFromsolving_tasks.includes(word)).join(' ');
-            if (psymove_in_solving_tasks){
-              this.mobility = 'инертностью психических процессов';
-            }
-            let dinamic_in_solving_tasks = solving_tasks.split(/,+/).filter((word:string) => removeDinamicFromsolving_tasks.includes(word)).join(' ');
-            if (dinamic_in_solving_tasks){
-              this.attention = 'флуктуациями';
-            }
-            break;
-          case 'solving problems':
-            let solving_problems = item.description.toString();
-            let remove_problems = ["флуктуации", "аспонтанность","импульсивность", "персеверации"];
-            let removePsyMove = ['персеверации'];
-            let removeControl = ['импульсивность'];
-            let removeDinamic = ['флуктуации'];
-            this.solving_problems = solving_problems
-              .split(/,+/)
-              .filter((word:string) => !remove_problems.includes(word))
-              .join(' ');
-            let control_in_solving_problems = solving_problems.split(/,+/).filter((word:string) => removeControl.includes(word)).join(' ');
-            if (control_in_solving_problems){
-              this.control = 'трудностями контроля';
-            }
-            let psymove_in_solving_problems = solving_problems.split(/,+/).filter((word:string) => removePsyMove.includes(word)).join(' ');
-            if (psymove_in_solving_problems){
-              this.mobility = 'инертностью психических процессов';
-            }
-            let dinamic_in_solving_problems = solving_problems.split(/,+/).filter((word:string) => removeDinamic.includes(word)).join(' ');
-            if (dinamic_in_solving_problems){
-              this.attention = 'флуктуациями';
-            }
-            break;
-          case 'solving analog':
-            let analog = item.description.toString();
-            let removefromAnalog = ["флуктуации", "аспонтанность","импульсивность", "персеверации"];
-            let removePsyMoveFromAnalog = ['персеверации'];
-            let removeControlFromAnalog = ['импульсивность'];
-            let removeDinamicFromAnalog = ['флуктуации'];
-            this.analog =  analog
-              .split(/,+/)
-              .filter((word:string) => !removefromAnalog.includes(word))
-              .join(' ');
-            let control_in_analog = analog.split(/,+/).filter((word:string) => removeControlFromAnalog.includes(word)).join(' ');
-            if (control_in_analog){
-              this.control = 'трудностями контроля';
-            }
-            let psymove_in_analog = analog.split(/,+/).filter((word:string) => removePsyMoveFromAnalog.includes(word)).join(' ');
-            if (psymove_in_analog){
-              this.mobility = 'инертностью психических процессов';
-            }
-            let dinamic_in_analog = analog.split(/,+/).filter((word:string) => removeDinamicFromAnalog.includes(word)).join(' ');
-            if (dinamic_in_analog){
-              this.attention = 'флуктуациями';
-            }
-            break;
-          case 'solving exclude':
-            let exclude_4 = item.description.toString();
-            let remove2 = ["флуктуации","аспонтанность", "импульсивность", "персеверации"];
-            let rmcontrolfromex = ["импульсивность"];
-            let rmMoveFromEx = ["персеверации"];
-            let rmDinamicFromEx = ["флуктуации"];
-            this.exclude_4 = exclude_4
-              .split(/,+/)
-              .filter((word:string) => !remove2.includes(word))
-              .join(' ');
-            let controlProblems = exclude_4.split(/,+/).filter((word:string) => rmcontrolfromex.includes(word)).join(' ');
-            if (controlProblems){
-              this.control = 'трудностями контроля';
-            }
-            let move_in_exclude_4 = exclude_4.split(/,+/).filter((word:string) => rmMoveFromEx.includes(word)).join(' ');
-            if (move_in_exclude_4){
-              this.mobility = 'инертностью психических процессов';
-            }
-            let dinamic_in_exclude_4 = exclude_4.split(/,+/).filter((word:string) => rmDinamicFromEx.includes(word)).join(' ');
-            if (dinamic_in_exclude_4){
-              this.attention = 'флуктуациями';
-            }
-
-            break;
-          case  'understanding':
-            this.text_meaning = 'доступно с незначительной организующей помощью'
-            break;
-          case  'understanding serial pictures':
-            this.causal_link = 'Причинно-следственные связи устанавливает с незначительной организующей помощью';
-            break;
-          case 'understanding pictures':
-            this.pictures_understanding = 'доступно с незначительной организующей помощью';
-            break;
-          case  'understanding proverbs':
-            this.proverbs = 'доступно с незначительной организующей помощью';
-            break;
-          case  'attention':
-            this.attention = item.description.toString();
-            break;
-          default:
-            break;
-        }
-      }
-    });
-
-  }
 
 }
   saveSolutions(resume: string, recommends: string): void {

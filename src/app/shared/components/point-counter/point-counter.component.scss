@@ -29,5 +29,9 @@
     font-weight: 400;
     line-height: 23px;
     color: green;
+
+    &:visited{
+      color: #d91442;
+    }
   }
 }

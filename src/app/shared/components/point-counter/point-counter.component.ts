@@ -8,8 +8,9 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 export class PointCounterComponent implements OnInit {
  // @Input()count: number  = 0;
   constructor() { }
-  count: number  = 0;
+  count: number  = -1;
   @Output()onCountChange: EventEmitter<number> = new EventEmitter<number>();
+ // @Input()savePoint: EventEmitter<any> = new EventEmitter<any>();
   @Input()generalCharacteristic = [
     {
       name: 'orientation',
@@ -51,17 +52,19 @@ export class PointCounterComponent implements OnInit {
   ngOnInit(): void {
   }
   countChange(){
+    if (this.count !== null && this.count >= 0)
       this.onCountChange.emit(this.count)
   }
   decreaseCount(button: any){
-    if ( this.count > 0){
+    if ( this.count !==null && this.count >= 0){
       console.log(button)
       this.count--
       this.countChange()
+    //  this.savePoint()
     }
   }
   increaseCount(button:any){
-    if ( this.count < 3){
+    if ( this.count !==null && this.count < 3){
       console.log(button)
       this.count++
       this.countChange()
