@@ -8,6 +8,7 @@ import {ReportService} from "../../shared/services/report.service";
 import {GettingPropertyType} from "../../types/gettingProperty.type";
 
 
+
 @Component({
   selector: 'app-raport-page',
   templateUrl: './raport-page.component.html',
@@ -124,7 +125,10 @@ export class RaportPageComponent implements OnInit {
   control3: string = '';
   switchOfMovements3: string = '';
   mobility3: string = '';
-  solution = {
+
+  solution = {};
+
+ /* solution = {
     sol_complaints: this.complaints,
     sol_med_anamnesis: this.med_anamnesis,
     sol_soc_anamnesis: this.soc_anamnesis,
@@ -190,7 +194,7 @@ export class RaportPageComponent implements OnInit {
     sol_resume_description: this.resume_description,
     sol_attentionPoint: this.attentionPoint,
     sol_regulation: this.regulation,
-  }
+  }*/
 
 
   constructor(private router: Router, private reportService: ReportService) {
@@ -234,7 +238,8 @@ export class RaportPageComponent implements OnInit {
       let anamnesisInfoParsed = JSON.parse(anamnesisInfo)
       this.complaints = anamnesisInfoParsed.userComplaints;
       this.med_anamnesis = anamnesisInfoParsed.userMedAnam;
-      this.soc_anamnesis = anamnesisInfoParsed.userSocAnam
+      this.soc_anamnesis = anamnesisInfoParsed.userSocAnam;
+
 
     }
     //распаковка данных общей части протокола
@@ -287,64 +292,69 @@ export class RaportPageComponent implements OnInit {
       console.log(descriptionsFromNotBadSymptomsArr)
       let descriptionsFromNotBadSymptomsArr_flatted = descriptionsFromNotBadSymptomsArr.flat(1)
       console.log(descriptionsFromNotBadSymptomsArr_flatted)
-      let ram = descriptionsFromNotBadSymptomsArr_flatted.filter(item => item.trimEnd() === 'трудности удержания промежуточного результата' || item.trimEnd() === 'контаминации обеих групп'  ||
-        item.trimEnd() === 'ошибки в единицах' );
-      console.log(ram);
-      if (ram.length >= 1){
-        this.ram_value = 'характеризуется недостаточностью оперативной памяти'
-        console.log( this.ram_value)
-      }
-      let programMovementsProblems = descriptionsFromNotBadSymptomsArr_flatted.filter(item => item.trimEnd() === 'упрощение программы' || item.trimEnd() === 'расширение программы');
-      console.log( programMovementsProblems);
-      if ( programMovementsProblems.length >= 1){
-        this.programming = 'на уровне движений и действий'
-        console.log( this.programming)
-      }
-      let programMentalProblems = descriptionsFromNotBadSymptomsArr_flatted.filter(item =>  item.trimEnd() == 'трудности построения алгоритма решения задачи'
-        || item.trimEnd() == 'не может построить фигуру самостоятельно по картинке, необходима организующая помощь');
-      console.log( programMentalProblems);
-      if ( programMentalProblems.length >= 1){
-        this.mentalProgramming = 'психической деятельности'
-        console.log( this.mentalProgramming)
-      }
-      let programLogicProblems = descriptionsFromNotBadSymptomsArr_flatted.filter(item =>  item.trimEnd() === 'трудности переноса' || item.trimEnd() === 'исключает по ситуативному признаку');
-      console.log( programLogicProblems);
-      if ( programLogicProblems.length >= 1){
-        this.logicProgramming = 'характеризуется недостаточностью в звене программировани психической деятельности'
-        console.log( this.programming)
-      }
-      let dinamicProblems = descriptionsFromNotBadSymptomsArr_flatted.filter((problem: string) =>  problem.trimEnd() === 'трудности переключения с одного движения на другое' || problem.trimEnd() === 'с отрывом руки от листа'
-        || problem.trimEnd() === 'поочередное выполнение' || problem.trimEnd() === 'выполнение с отставанием одной руки' || problem.trimEnd() === 'трудности переключения с одной позы на другую');
-      if (dinamicProblems.length >= 1){
-        this.switchOfMovements = 'трудностями переключения'
-        console.log(  this.switchOfMovements)
-      }
-      let kineticProblemsMinus = descriptionsFromNotBadSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'персеверации' ||  problem.trimEnd() === 'скандированность'
-        || problem.trimEnd() === 'трудности воспроизведения акцентированных ритмов');
-      if (kineticProblemsMinus.length >= 1){
-        this.movementsDifficaltiesMinus = 'трудностями переключения'
-        console.log(  this.movementsDifficaltiesMinus)
-      }
-      let kineticProblemsPlus = descriptionsFromNotBadSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'лишние импульсы' || problem.trimEnd() === 'трудности воспроизведения акцентированных ритмов');
-      if ( kineticProblemsPlus.length >= 1){
-        this.movementsDifficaltiesPlus = 'трудностями переключения'
-        console.log(  this.movementsDifficaltiesPlus)
+
+      if (descriptionsFromNotBadSymptomsArr_flatted.length > 0 && !descriptionsFromNotBadSymptomsArr_flatted.filter(item => item ===undefined)){
+        let ram = descriptionsFromNotBadSymptomsArr_flatted.filter(item => item.trimEnd() === 'трудности удержания промежуточного результата' || item.trimEnd() === 'контаминации обеих групп'  ||
+          item.trimEnd() === 'ошибки в единицах' );
+        console.log(ram);
+        if (ram.length >= 1){
+          this.ram_value = 'характеризуется недостаточностью оперативной памяти'
+          console.log( this.ram_value)
+        }
+        let programMovementsProblems = descriptionsFromNotBadSymptomsArr_flatted.filter(item => item.trimEnd() === 'упрощение программы' || item.trimEnd() === 'расширение программы');
+        console.log( programMovementsProblems);
+        if ( programMovementsProblems.length >= 1){
+          this.programming = 'на уровне движений и действий'
+          console.log( this.programming)
+        }
+        let programMentalProblems = descriptionsFromNotBadSymptomsArr_flatted.filter(item =>  item.trimEnd() == 'трудности построения алгоритма решения задачи'
+          || item.trimEnd() == 'не может построить фигуру самостоятельно по картинке, необходима организующая помощь');
+        console.log( programMentalProblems);
+        if ( programMentalProblems.length >= 1){
+          this.mentalProgramming = 'психической деятельности'
+          console.log( this.mentalProgramming)
+        }
+        let programLogicProblems = descriptionsFromNotBadSymptomsArr_flatted.filter(item =>  item.trimEnd() === 'трудности переноса' || item.trimEnd() === 'исключает по ситуативному признаку');
+        console.log( programLogicProblems);
+        if ( programLogicProblems.length >= 1){
+          this.logicProgramming = 'характеризуется недостаточностью в звене программировани психической деятельности'
+          console.log( this.programming)
+        }
+        let dinamicProblems = descriptionsFromNotBadSymptomsArr_flatted.filter((problem: string) =>  problem.trimEnd() === 'трудности переключения с одного движения на другое' || problem.trimEnd() === 'с отрывом руки от листа'
+          || problem.trimEnd() === 'поочередное выполнение' || problem.trimEnd() === 'выполнение с отставанием одной руки' || problem.trimEnd() === 'трудности переключения с одной позы на другую');
+        if (dinamicProblems.length >= 1){
+          this.switchOfMovements = 'трудностями переключения'
+          console.log(  this.switchOfMovements)
+        }
+        let kineticProblemsMinus = descriptionsFromNotBadSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'персеверации' ||  problem.trimEnd() === 'скандированность'
+          || problem.trimEnd() === 'трудности воспроизведения акцентированных ритмов');
+        if (kineticProblemsMinus.length >= 1){
+          this.movementsDifficaltiesMinus = 'трудностями переключения'
+          console.log(  this.movementsDifficaltiesMinus)
+        }
+        let kineticProblemsPlus = descriptionsFromNotBadSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'лишние импульсы' || problem.trimEnd() === 'трудности воспроизведения акцентированных ритмов');
+        if ( kineticProblemsPlus.length >= 1){
+          this.movementsDifficaltiesPlus = 'трудностями переключения'
+          console.log(  this.movementsDifficaltiesPlus)
+        }
+
+        let activateProblemsSlow = descriptionsFromNotBadSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'инактивность' || problem.trimEnd() === 'аспонтанность'  );
+        if (activateProblemsSlow.length >= 1){
+          this.mobility = 'инертностью психических процессов'
+        }
+        let controlProblems = descriptionsFromNotBadSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'эхопраксия' || problem.trimEnd() === 'зеркальность' || problem.trimEnd() === 'импульсивность' || problem.trimEnd() === 'псевдоагнозии' || problem.trimEnd() === ' конфабуляции');
+        if (controlProblems.length >= 1){
+          this.control = 'трудностями контроля'
+          console.log( this.control)
+        }
+        let activateProblemsMinus = descriptionsFromNotBadSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'истощаемость');
+        if (activateProblemsMinus.length >= 1){
+          this.minusMobility = 'истощаемостью'
+          console.log( this.control)
+        }
       }
 
-      let activateProblemsSlow = descriptionsFromNotBadSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'инактивность' || problem.trimEnd() === 'аспонтанность'  );
-      if (activateProblemsSlow.length >= 1){
-        this.mobility = 'инертностью психических процессов'
-      }
-      let controlProblems = descriptionsFromNotBadSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'эхопраксия' || problem.trimEnd() === 'зеркальность' || problem.trimEnd() === 'импульсивность' || problem.trimEnd() === 'псевдоагнозии' || problem.trimEnd() === ' конфабуляции');
-      if (controlProblems.length >= 1){
-        this.control = 'трудностями контроля'
-        console.log( this.control)
-      }
-      let activateProblemsMinus = descriptionsFromNotBadSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'истощаемость');
-      if (activateProblemsMinus.length >= 1){
-        this.minusMobility = 'истощаемостью'
-        console.log( this.control)
-      }
+
      // );
     }
 
@@ -358,87 +368,93 @@ export class RaportPageComponent implements OnInit {
      let descriptionsFromBadSymptomsArr_flatted = descriptionsFromBadSymptomsArr.flat(1)
       console.log(descriptionsFromBadSymptomsArr_flatted)
 
-      //функции программирования и контроля, серийная организация движений и действий
-      let dinamicLowProblemsArray_bad = [];
-      let dinamicStuckProblems_bad = [];
-      let programmingActionsProblems_bad = [];
-      let ram = descriptionsFromBadSymptomsArr_flatted.filter(item => item.trimEnd() === 'трудности удержания промежуточного результата' || item.trimEnd() === 'контаминации обеих групп'  ||
-        item.trimEnd() === 'ошибки в единицах' );
-      console.log(ram);
-      if (ram.length >= 1){
-        this.ram_value = 'характеризуется недостаточностью оперативной памяти'
-        console.log( this.ram_value)
-      }
-      let programMovementsProblems = descriptionsFromBadSymptomsArr_flatted.filter(item => item.trimEnd() === 'упрощение программы' || item.trimEnd() === 'расширение программы');
-      console.log( programMovementsProblems);
-      if ( programMovementsProblems.length >= 1){
-        this.programming2 = 'на уровне движений и действий'
-        console.log( this.programming)
-      }
-      let programMentalProblems = descriptionsFromBadSymptomsArr_flatted .filter(item =>  item.trimEnd() === 'трудности построения алгоритма решения задачи' ||
-        item.trimEnd() === 'не может построить фигуру самостоятельно по картинке, необходима организующая помощь');
-      console.log( programMentalProblems);
-      if ( programMentalProblems.length >= 1){
-        programmingActionsProblems_bad.push(programMentalProblems.toString())
-      }
-      let programLogicProblems = descriptionsFromBadSymptomsArr_flatted.filter(item =>  item.trimEnd() === 'трудности переноса' || item.trimEnd() === 'исключает по ситуативному признаку');
-      console.log( programLogicProblems);
-      if ( programLogicProblems.length >= 1){
-        programmingActionsProblems_bad.push(programLogicProblems.toString())
-      }
-      if (programmingActionsProblems_bad.length >=1){
+      if (descriptionsFromBadSymptomsArr_flatted.length > 0 && !descriptionsFromBadSymptomsArr_flatted.filter(item => item ===undefined)) {
+        //функции программирования и контроля, серийная организация движений и действий
+        let dinamicLowProblemsArray_bad = [];
+        let dinamicStuckProblems_bad = [];
+        let programmingActionsProblems_bad = [];
+
+          let ram = descriptionsFromBadSymptomsArr_flatted.filter(item => item.trimEnd() === 'трудности удержания промежуточного результата' || item.trimEnd() === 'контаминации обеих групп'  ||
+            item.trimEnd() === 'ошибки в единицах' );
+          console.log(ram);
+          if (ram.length >= 1){
+            this.ram_value = 'характеризуется недостаточностью оперативной памяти'
+            console.log( this.ram_value)
+          }
+
+
+        let programMovementsProblems = descriptionsFromBadSymptomsArr_flatted.filter(item => item.trimEnd() === 'упрощение программы' || item.trimEnd() === 'расширение программы');
+        console.log( programMovementsProblems);
+        if ( programMovementsProblems.length >= 1){
+          this.programming2 = 'на уровне движений и действий'
+          console.log( this.programming)
+        }
+        let programMentalProblems = descriptionsFromBadSymptomsArr_flatted.filter(item =>  item.trimEnd() === 'трудности построения алгоритма решения задачи' ||
+          item.trimEnd() === 'не может построить фигуру самостоятельно по картинке, необходима организующая помощь');
+        console.log( programMentalProblems);
+        if ( programMentalProblems.length >= 1){
+          programmingActionsProblems_bad.push(programMentalProblems.toString())
+        }
+        let programLogicProblems = descriptionsFromBadSymptomsArr_flatted.filter(item =>  item.trimEnd() === 'трудности переноса' || item.trimEnd() === 'исключает по ситуативному признаку');
+        console.log( programLogicProblems);
+        if ( programLogicProblems.length >= 1){
+          programmingActionsProblems_bad.push(programLogicProblems.toString())
+        }
+        if (programmingActionsProblems_bad.length >=1){
           this.mentalProgramming2 = 'на уровне программирования психической деятельности'
-      }
+        }
 
 
-      //  this.logicProgramming = 'характеризуется недостаточностью в звене программировани психической деятельности'
+        //  this.logicProgramming = 'характеризуется недостаточностью в звене программировани психической деятельности'
 
-      let dinamicProblems = descriptionsFromBadSymptomsArr_flatted.filter((problem: string) =>  problem.trimEnd() === 'трудности переключения с одного движения на другое' || problem.trimEnd() === 'с отрывом руки от листа'
-        || problem.trimEnd() === 'поочередное выполнение' || problem.trimEnd() === 'выполнение с отставанием одной руки' || problem.trimEnd() === 'трудности переключения с одной позы на другую');
-      if (dinamicProblems.length >= 1){
-        dinamicStuckProblems_bad.push(dinamicProblems.toString())
+        let dinamicProblems = descriptionsFromBadSymptomsArr_flatted.filter((problem: string) =>  problem.trim() === 'трудности переключения с одного движения на другое' || problem.trim() === 'с отрывом руки от листа'
+          || problem.trim() === 'поочередное выполнение' || problem.trim() === 'выполнение с отставанием одной руки' || problem.trim() === 'трудности переключения с одной позы на другую');
+        if (dinamicProblems.length >= 1){
+          dinamicStuckProblems_bad.push(dinamicProblems.toString())
+        }
+        let kineticProblemsMinus = descriptionsFromBadSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'персеверации' ||  problem.trimEnd() === 'скандированность'
+          || problem.trimEnd() === 'трудности воспроизведения акцентированных ритмов');
+        if (kineticProblemsMinus.length >= 1){
+          dinamicStuckProblems_bad.push(kineticProblemsMinus.toString())
+          //  this.movementsDifficaltiesMinus = 'трудностями переключения'
+          //   console.log(  this.switchOfMovements)
+        }
+        let kineticProblemsPlus = descriptionsFromBadSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'лишние импульсы' || problem.trimEnd() === 'трудности воспроизведения акцентированных ритмов');
+        if ( kineticProblemsPlus.length >= 1){
+          dinamicStuckProblems_bad.push(kineticProblemsPlus.toString())
+          // this.movementsDifficaltiesPlus = 'трудностями переключения'
+          //  console.log(  this.switchOfMovements)
+        }
+        if (dinamicStuckProblems_bad.length >= 1){
+          this.switchOfMovements = 'трудностями переключения'
+        }
+
+        let activateProblemsSlow = descriptionsFromBadSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'инактивность' || problem.trimEnd() === 'аспонтанность'  );
+        if (activateProblemsSlow.length >= 1){
+          this.mobility = 'выраженной инертностью психических процессов'
+        }
+        let controlProblems = descriptionsFromBadSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'эхопраксия' || problem.trimEnd() === 'зеркальность' || problem.trimEnd() === 'импульсивность'
+          || problem.trimEnd() === 'псевдоагнозии' || problem.trimEnd() === ' конфабуляции');
+        if (controlProblems.length >= 1){
+          this.control2 = 'трудностями контроля'
+          console.log( this.control2)
+        }
+        //нейродинамика
+
+        let activateProblemsMinus = descriptionsFromBadSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'истощаемость');
+        if (activateProblemsMinus.length >= 1){
+          dinamicLowProblemsArray_bad.push(activateProblemsMinus.toString())
+          this.minusMobility2 = 'истощаемостью'
+          //console.log( this.minusMobility)
+        }
+        let sinusProblems = descriptionsFromBadSymptomsArr_flatted.filter((problem:string) => problem.trimEnd() === 'флуктуации' )
+        if (sinusProblems.length >=1){
+          dinamicLowProblemsArray_bad.push(sinusProblems.toString())
+          this.sinus2 = 'флуктуациями'
+        }
       }
-      let kineticProblemsMinus = descriptionsFromBadSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'персеверации' ||  problem.trimEnd() === 'скандированность'
-        || problem.trimEnd() === 'трудности воспроизведения акцентированных ритмов');
-      if (kineticProblemsMinus.length >= 1){
-        dinamicStuckProblems_bad.push(kineticProblemsMinus.toString())
-      //  this.movementsDifficaltiesMinus = 'трудностями переключения'
-     //   console.log(  this.switchOfMovements)
-      }
-      let kineticProblemsPlus = descriptionsFromBadSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'лишние импульсы' || problem.trimEnd() === 'трудности воспроизведения акцентированных ритмов');
-      if ( kineticProblemsPlus.length >= 1){
-        dinamicStuckProblems_bad.push(kineticProblemsPlus.toString())
-       // this.movementsDifficaltiesPlus = 'трудностями переключения'
-      //  console.log(  this.switchOfMovements)
-      }
-      if (dinamicStuckProblems_bad.length >= 1){
-        this.switchOfMovements = 'трудностями переключения'
       }
 
-      let activateProblemsSlow = descriptionsFromBadSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'инактивность' || problem.trimEnd() === 'аспонтанность'  );
-      if (activateProblemsSlow.length >= 1){
-        this.mobility = 'выраженной инертностью психических процессов'
-      }
-      let controlProblems = descriptionsFromBadSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'эхопраксия' || problem.trimEnd() === 'зеркальность' || problem.trimEnd() === 'импульсивность'
-        || problem.trimEnd() === 'псевдоагнозии' || problem.trimEnd() === ' конфабуляции');
-      if (controlProblems.length >= 1){
-        this.control2 = 'трудностями контроля'
-        console.log( this.control2)
-      }
-      //нейродинамика
-
-      let activateProblemsMinus = descriptionsFromBadSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'истощаемость');
-      if (activateProblemsMinus.length >= 1){
-        dinamicLowProblemsArray_bad.push(activateProblemsMinus.toString())
-        this.minusMobility2 = 'истощаемостью'
-        //console.log( this.minusMobility)
-      }
-      let sinusProblems = descriptionsFromBadSymptomsArr_flatted.filter((problem:string) => problem.trimEnd() === 'флуктуации' )
-      if (sinusProblems.length >=1){
-        dinamicLowProblemsArray_bad.push(sinusProblems.toString())
-        this.sinus2 = 'флуктуациями'
-      }
-    }
 
 
     let objective_worseSymptoms = localStorage.getItem('worseResults')
@@ -447,38 +463,41 @@ export class RaportPageComponent implements OnInit {
       console.log(this.objectiveWorseSymptoms)
       let descriptionsFromWorseSymptomsArr = this.objectiveWorseSymptoms.flat(1).map(item => item.description)
       console.log(descriptionsFromWorseSymptomsArr)
+      //добавить обработку оштбок на случай отсутствия данных
       let descriptionsFromWorseSymptomsArr_flatted = descriptionsFromWorseSymptomsArr.flat(1)
       console.log(descriptionsFromWorseSymptomsArr_flatted)
-      let programProblems = descriptionsFromWorseSymptomsArr_flatted.filter(item => item.trimEnd() === 'упрощение программы' || item.trimEnd() === 'расширение программы'
-        || item.trimEnd() === 'эхопраксия' || item.trimEnd() === 'трудности построения алгоритма решения задачи' ||
-        item.trimEnd() === 'не может построить фигуру самостоятельно по картинке, необходима организующая помощь'
-        || item.trimEnd() === 'ошибки в единицах' || item.trimEnd() === 'трудности переноса' || item.trimEnd() === 'исключает по ситуативному признаку');
-      console.log( programProblems);
-      if ( programProblems.length >= 1){
-        this.programming3 = 'характеризуется грубой недостаточностью в звене программировани психической деятельности'
-        console.log( this.programming)
+      if (descriptionsFromWorseSymptomsArr_flatted.length > 0 && !descriptionsFromWorseSymptomsArr_flatted.filter(item => item ===undefined)){
+        let programProblems = descriptionsFromWorseSymptomsArr_flatted.filter(item => item === 'упрощение программы' || item === 'расширение программы'
+          || item === 'эхопраксия' || item  === 'трудности построения алгоритма решения задачи' ||
+          item === 'не может построить фигуру самостоятельно по картинке, необходима организующая помощь'
+          || item === 'ошибки в единицах' || item === 'трудности переноса' || item === 'исключает по ситуативному признаку');
+        console.log( programProblems);
+        if ( programProblems.length >= 1){
+          this.programming3 = 'характеризуется грубой недостаточностью в звене программировани психической деятельности'
+          console.log( this.programming)
+        }
+        let dinamicProblems = descriptionsFromWorseSymptomsArr_flatted.filter((problem: string) => problem === 'персеверации'
+          || problem === 'трудности переключения с одного движения на другое' || problem === 'скандированность' || problem === 'с отрывом руки от листа'
+          || problem === 'поочереное выполнение' || problem === 'выполнение с отсаванием одной руки'
+          || problem === 'трудности переключения с одной позы на другую' || problem === 'трудности воспроизведения акцентированных ритмов');
+        if (dinamicProblems.length >= 1){
+          this.switchOfMovements3 = 'грубыми трудностями переключения'
+          console.log( this.switchOfMovements)
+        }
+        let activateProblems = descriptionsFromWorseSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'инактивность' || problem.trimEnd() === 'аспонтанность'  );
+        if (activateProblems.length >= 1){
+          this.mobility3 = 'грубой инертностью психических процессов'
+          console.log( this.mobility3);
+        }
+        let controlProblems = descriptionsFromWorseSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'эхопраксия' || problem.trimEnd() === 'зеркальность'
+          || problem.trimEnd() === 'импульсивность' || problem.trimEnd() === 'лишние импульсы'|| problem.trimEnd() === 'псевдоагнозии' || problem.trimEnd() === 'контаминации обеих групп'
+          || problem.trimEnd() === ' конфабуляции');
+        if (controlProblems.length >= 1){
+          this.control3 = 'грубыми нарушениями контроля'
+          console.log(  this.control3);
+        }
       }
-      let dinamicProblems = descriptionsFromWorseSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'персеверации'
-        || problem.trimEnd() === 'трудности переключения с одного движения на другое' || problem.trimEnd() === 'скандированность' || problem.trimEnd() === 'с отрывом руки от листа'
-        || problem.trimEnd() === 'поочереное выполнение' || problem.trimEnd() === 'выполнение с отсаванием одной руки'
-        || problem.trimEnd() === 'трудности переключения с одной позы на другую' || problem.trimEnd() === 'трудности воспроизведения акцентированных ритмов');
-      if (dinamicProblems.length >= 1){
-        this.switchOfMovements3 = 'грубыми трудностями переключения'
-        console.log( this.switchOfMovements)
       }
-      let activateProblems = descriptionsFromWorseSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'инактивность' || problem.trimEnd() === 'аспонтанность'  );
-      if (activateProblems.length >= 1){
-        this.mobility3 = 'грубой инертностью психических процессов'
-        console.log( this.mobility3);
-      }
-      let controlProblems = descriptionsFromWorseSymptomsArr_flatted.filter((problem: string) => problem.trimEnd() === 'эхопраксия' || problem.trimEnd() === 'зеркальность'
-        || problem.trimEnd() === 'импульсивность' || problem.trimEnd() === 'лишние импульсы'|| problem.trimEnd() === 'псевдоагнозии' || problem.trimEnd() === 'контаминации обеих групп'
-        || problem.trimEnd() === ' конфабуляции');
-      if (controlProblems.length >= 1){
-        this.control3 = 'грубыми нарушениями контроля'
-        console.log(  this.control3);
-      }
-    }
     if (this.objectiveBadSymptoms || this.objectiveWorseSymptoms || this.objectiveNotBadSymptoms) {
       this.giveValuesForMakingRaport()
     }
@@ -1254,19 +1273,46 @@ export class RaportPageComponent implements OnInit {
       this.recommends = recommends;
       this.isRefresh = true;
       this.router.navigate(['raport'])
+      this.solution =
+        { dateOfDiagnostic: this.examinationDate,
+          nameOfClient: this.nameOfUser,
+          dateOfBirth: this.birthdayOfUser,
+          presolution:
+            [this.complaints,this.med_anamnesis,this.soc_anamnesis],
+          perfomance: [
+            this.adequancy, this.adequancyDescription, this.contact, this.conversation, this.entranceDescription, this.speechInitiation,
+            this.distance, this.orientation, this.orientationDescription, this.expert_motivation, this.interest, this.emotional_state,
+            this.emotional_stateDescription, this.criticality, this.instructionUnderstanding, this.tasks, this.helpDescription,
+            this.helpAccepting, this.workTempo, this.workDinamic
+          ],
+          gnosis: [this.visiual_gnosis, this.visiual_symbolic_gnosis, this.copy_gnosis, this.emotional_gnosis, this.auditional_gnosis,this.sensor_gnosis],
+          pracsis: [this.dinamic_pracsis,this.reciprok,this.position_pracsis,this.choice_reaction, this.grafics_pracsis, this.constract_pracsis, this.eyes_test, this.heads_test],
+          memory: [this.audit_memory, this.memoryPoints, this.audit_memory_2_3, this.visial_space_memory,this.visiual_memory, ],
+          calculating: [this.calculating],
+          thinking: [this.causal_link,this.solving_problems, this.exclude_4, this.pictures_understanding, this.text_meaning],
+          speech: this.speech,
+          dinamic: [this.mobility,this.minusMobility2, this.sinus,this.sinus2, this.regulation,this.shultePoints,this.attention],
+          regulation: [this.programming,this.mentalProgramming, this.control, ],
+          resume: this.resume,
+          recommendation:this.recommends,
+        }
+    console.log(this.solution)//объект пустой
+    //создать объект solution по модели и записать в него данные
   }
 
   saveAndSendRequestToDB(){
-    this.reportService.saveReport(this.userId, this.solution)
+    let solutionForSend = JSON.stringify(this.solution)
+    localStorage.setItem('fullSolution', solutionForSend)
+    this.reportService.saveReport( this.solution)
       .subscribe(data => {
           if (data === undefined){
             throw new Error("Данные не удалось записать")
           }
       });
     console.log("Success");
-    this.router.navigate(['/']);
+  //  this.router.navigate(['/']);
+  }
   }
 
-  }
 
 

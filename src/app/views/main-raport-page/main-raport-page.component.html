@@ -1506,11 +1506,10 @@
                 <label for="helpThink23"> массированная </label>
               </div>-->
          <!--   </div>-->
-            <div class="raport-block d-flex align-items-center">
-              <div class="block-title " data-toggle="collapse" data-target="#pictureMeaning"
-                   aria-expanded="false" aria-controls="collapseExample">
-                Понимание смысла серии сюжетных картин
-              </div>
+
+
+            <div class="one-symptom d-flex align-items-center"> <!-- добавить стрелочку-->
+              <div class="symptom-name"> Понимание смысла серии сюжетных картин </div>
               <div>
                 <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
               </div>
@@ -1541,16 +1540,15 @@
                 <label for="helpThink27"> массированная </label>
               </div>-->
           <!--  </div>-->
-            <div class="raport-block d-flex align-items-center">
-              <div class="block-title " data-toggle="collapse" data-target="#pictureMeaning"
-                   aria-expanded="false" aria-controls="collapseExample">
-                Понимание смысла симультанных сюжетных картин
-              </div>
+
+            <div class="one-symptom d-flex align-items-center"> <!-- добавить стрелочку-->
+              <div class="symptom-name"> Понимание смысла симультанных сюжетных картин </div>
               <div>
                 <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
               </div>
               <button class="btn-sm bg-success thinkButtons" id="thinking_05" (click)="saveObjectivePoint($event.target)"> OK </button>
             </div>
+
            <!-- <div class="block-title bg-light" data-toggle="collapse" data-target="#collapse" aria-expanded="false"
                  aria-controls="collapseExample">
               Эффективность помощи
@@ -1575,16 +1573,15 @@
               <input type="checkbox" id="helpThink31" class="inputs_helping" (change)="inputChange2($event.target)">
               <label for="helpThink31"> массированная </label>
             </div>-->
-            <div class="raport-block d-flex align-items-center">
-            <div class="block-title " data-toggle="collapse" data-target="#proverbs"
-                 aria-expanded="false" aria-controls="collapseExample">
-             Понимание пословиц, поговорок
-            </div>
-            <div>
-              <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
-            </div>
+
+            <div class="one-symptom d-flex align-items-center"> <!-- добавить стрелочку-->
+              <div class="symptom-name"> Понимание пословиц, поговорок</div>
+              <div>
+                <app-point-counter (onCountChange)="addPoint($event)"></app-point-counter>
+              </div>
               <button class="btn-sm bg-success thinkButtons" id="thinking_06" (click)="saveObjectivePoint($event.target)"> OK </button>
-          </div>
+            </div>
+            
            <!-- <div class="block-title bg-light" data-toggle="collapse" data-target="#collapse" aria-expanded="false"
                  aria-controls="collapseExample">
               Эффективность помощи

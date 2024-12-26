@@ -16,6 +16,7 @@ export class ReadyReportsComponent implements OnInit {
     this.reportService.getReports()
       .subscribe(data => {
         this.newSolution = data
+        console.log(this.newSolution)
       });
   }
 

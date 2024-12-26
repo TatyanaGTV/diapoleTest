@@ -33,7 +33,7 @@ export class MainRaportPageComponent implements OnInit  {
   generalCharacteristic: PropertyType[] = [
     {
       name: 'contact',
-      point: this.count? this.count : -1,
+      point: this.count? this.count : 0,
       buttonId: "00",
     },
     {
@@ -843,16 +843,16 @@ buttons(){
     }
     localStorage.setItem('generalAnamnesis',JSON.stringify(generalAnamnesis));
 
-    let generalZero =  this.generalCharacteristic.filter(item => item.point === 0)
+    let generalZero =  this.generalCharacteristic.filter(item => item.point === 1)
     localStorage.setItem('zero',JSON.stringify(generalZero));
 
-    let generalArrNotBad =  this.generalCharacteristic.filter(item => item.point === 1)
+    let generalArrNotBad =  this.generalCharacteristic.filter(item => item.point === 2)
     localStorage.setItem('notBad',JSON.stringify(generalArrNotBad));
 
-    let generalArrBad =  this.generalCharacteristic.filter(item => item.point === 2)
+    let generalArrBad =  this.generalCharacteristic.filter(item => item.point === 3)
     localStorage.setItem('bad',JSON.stringify(generalArrBad));
 
-    let generalArrWorse = this.generalCharacteristic.filter(item => item.point === 3)
+    let generalArrWorse = this.generalCharacteristic.filter(item => item.point === 4)
     localStorage.setItem('worse',JSON.stringify(generalArrWorse));
 
     if (this.shulteForm.shulte_1_table !== '' && this.shulteForm.shulte_2_table !=='' && this.shulteForm.shulte_3_table !==''){
@@ -884,7 +884,7 @@ buttons(){
 
     for (let i = 5; i < this.completedRaport.length ; i++) {
       if (this.completedRaport[i].results && (this.completedRaport[i].results as PropertyType[])){
-        let arr = (this.completedRaport[i].results as PropertyType[]).filter(item => item.point === 0)
+        let arr = (this.completedRaport[i].results as PropertyType[]).filter(item => item.point === 1)
         if (arr.length > 0 )  {
           zeroPointResults.push(arr)
         }
@@ -896,7 +896,7 @@ buttons(){
 
     for (let i = 5; i < this.completedRaport.length ; i++) {
       if (this.completedRaport[i].results && (this.completedRaport[i].results as PropertyType[])){
-        let  arr = (this.completedRaport[i].results as PropertyType[]).filter(item => item.point === 1)
+        let  arr = (this.completedRaport[i].results as PropertyType[]).filter(item => item.point === 2)
         if (arr.length > 0 ){
           notBadResults.push(arr)
         }
@@ -907,7 +907,7 @@ buttons(){
     let badResults = [];
     for (let i = 5; i < this.completedRaport.length; i++) {
     if (this.completedRaport[i].results && (this.completedRaport[i].results as PropertyType[])) {
-        let arr = (this.completedRaport[i].results as PropertyType[]).filter(item => item.point === 2)
+        let arr = (this.completedRaport[i].results as PropertyType[]).filter(item => item.point === 3)
         if (arr.length > 0 ) {
          badResults.push(arr)
         }
@@ -918,7 +918,7 @@ buttons(){
     let worseResults = [];
     for (let i = 5; i < this.completedRaport.length ; i++) {
       if (this.completedRaport[i].results && (this.completedRaport[i].results as PropertyType[])) {
-        let arr = (this.completedRaport[i].results as PropertyType[]).filter(item => item.point === 3)
+        let arr = (this.completedRaport[i].results as PropertyType[]).filter(item => item.point === 4)
         if (arr.length > 0 ) {
           worseResults.push(arr)
         }
@@ -936,4 +936,4 @@ buttons(){
 
 }
 
-//
+

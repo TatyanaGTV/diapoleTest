@@ -11,8 +11,8 @@ export class ReportService {
 
   constructor(private http: HttpClient) {}
 
-  saveReport ( userId:string, solution: {}):Observable<{}>{
-    return this.http.post<{}>(environment.api + 'diagnosis_conclusion', {userId, solution})
+  saveReport (solution: {}):Observable<{}>{
+    return this.http.post<{}>(environment.api + 'diagnosis_conclusion', {solution})
   }
 
   getReports (){

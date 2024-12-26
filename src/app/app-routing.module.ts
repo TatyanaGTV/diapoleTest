@@ -6,13 +6,13 @@ import {RaportPageComponent} from "./views/raport-page/raport-page.component";
 import {ReadyReportsComponent} from "./views/ready-reports/ready-reports.component";
 
 const routes: Routes = [
-  {path: '',
-    component:LayoutComponent,
+  {path: '', component:LayoutComponent,
     children: [
       {path:'', component:MainRaportPageComponent},
+      {path: '', loadChildren:() => import('./views/user/user.module').then (m => m.UserModule)},
       {path:'raport', component:RaportPageComponent},
       {path:'solutions', component:ReadyReportsComponent},
-      {path: '', loadChildren:() => import('./views/user/user.module').then (m => m.UserModule)},
+
   ]
   }
 ];

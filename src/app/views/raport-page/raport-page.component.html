@@ -70,7 +70,8 @@
               <span *ngIf="audit_memory_2_3">При исследовании слухоречнвой памяти в пробе "2 по 3" отмечаются {{audit_memory_2_3}}.</span>
               <span *ngIf="visial_space_memory">При исследовании зрительной памяти отмечается {{visial_space_memory}}.</span>
               <span *ngIf="visiual_memory"> В пробе 2/3 отмечаются {{visiual_memory}}.</span>
-              <span *ngIf="calculating"><strong>Счет.</strong>При исследовании счетных фунцций отмечается {{calculating}}.</span>
+              <span *ngIf="calculating">
+                <strong>Счет.</strong>При исследовании счетных фунцций отмечается {{calculating}}.</span>
             </p>
             <p>
               <strong>Мышление.</strong> <span *ngIf="!causal_link && !exclude_4 && !pictures_understanding && !solving_problems">Причинно-следственные связи устанавливает верно, самостоятельно. 4-й лишний исключает по категориальному и функциональному признаку. Смысл сюжетных картин и рассказов доступен, в том числе скрытый.Решение арифметичеких задач трудностей не вызывает.</span>
@@ -129,7 +130,8 @@
           </div>
           <button class="btn-sm bg-success " (click)="saveSolutions(resume_description,recommends_decription)" *ngIf="!isRefresh"> Сохранить
           </button>
-          <!--  <button class="btn-sm bg-success " (click)="saveAndSendRequestToDB()"  *ngIf="isRefresh"> Сохранить и выйти</button>-->
+          <button class="btn-sm bg-success " (click)="saveAndSendRequestToDB()"  *ngIf="isRefresh"> Сохранить и выйти</button>
+
 
           <div>
             Клинический психолог, нейропсихолог Кудленок В.Е.

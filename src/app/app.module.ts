@@ -12,6 +12,8 @@ import { RaportPageComponent } from './views/raport-page/raport-page.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import { ReadyReportsComponent } from './views/ready-reports/ready-reports.component';
+import {RouterModule} from "@angular/router";
+
 
 
 
@@ -32,7 +34,8 @@ import { ReadyReportsComponent } from './views/ready-reports/ready-reports.compo
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    RouterModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,23 @@
+//модель заключения для сохранения в базе данных body for POST-request
+
+{
+  id: //присваивается БД
+  userId: string,
+  dateOfDiagnostic: string,
+  nameOfClient: string,
+  dateOfBirth: string,
+  solution: [
+  {commonPart:...}
+  {perfomance: //по объективным данным},
+  {gnosis:[...]},
+  {pracsis:[...]},
+  {memory:[...]},
+  {thinking:[...]},
+  {spech:[...]},
+  {dinamic:[...]},
+  {regulation:[...]},
+  {resume:[...]},
+  {recommendation...},
+  {signature:...}
+  ]
+}
